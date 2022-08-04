@@ -8,8 +8,8 @@ function App() {
       <header className="flex justify-center">
         <Header />
       </header>
-      <main className="flex mt-32 justify-center">
-        <GameField width={500} height={500} />
+      <main className="flex mt-24 justify-center">
+        <GameField width={10} height={10} />
       </main>
       <footer className="flex mt-auto justify-center">
         <Footer />
