@@ -17,7 +17,7 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        ...generateGridColumns(100), // This generates the columns from 12 until 100
+        ...generateGridColumns(100),
       },
     },
   },
