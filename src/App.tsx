@@ -4,7 +4,7 @@ import Header from './components/UI/Header';
 
 function App() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-x-scroll">
       <header className="flex justify-center">
         <Header />
       </header>

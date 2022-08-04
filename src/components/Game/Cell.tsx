@@ -4,10 +4,9 @@ import { useCallback, useState } from 'react';
 type PropsType = {
   index: number;
   // onClick: (index: number) => void;
-  isMarked?: boolean;
 };
 
-const Cell = ({ index, isMarked = false }: PropsType) => {
+const Cell = ({ index }: PropsType) => {
   const [isMarkedMine, setIsMarkedMine] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
