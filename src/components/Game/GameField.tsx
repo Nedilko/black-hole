@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Cell from './Cell';
 
-interface GameFieldProps {
+type GameFieldProps = {
   width: number;
   height: number;
-}
+};
 
 const GameField = ({ width, height }: GameFieldProps) => {
   const count = width * height;
