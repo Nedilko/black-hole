@@ -1,56 +1,30 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useState } from 'react';
+import Cell from './Cell';
 
 interface GameFieldProps {
   width: number;
   height: number;
 }
 
-type Coordinates = {
-  x: number;
-  y: number;
-};
-
 const GameField = ({ width, height }: GameFieldProps) => {
-  const gameField = useRef<HTMLCanvasElement>(null);
-
-  const startPaint = useCallback((event: MouseEvent) => {
-    const coordinates = getCoordinates(event);
-    if (coordinates) {
-      console.log(coordinates);
-    }
-  }, []);
-
-  const getCoordinates = (event: MouseEvent): Coordinates | undefined => {
-    if (!gameField.current) {
-      return;
-    }
-
-    const canvas: HTMLCanvasElement = gameField.current;
-    return {
-      x: event.pageX - canvas.offsetLeft,
-      y: event.pageY - canvas.offsetTop,
-    };
-  };
-
-  useEffect(() => {
-    if (!gameField.current) {
-      return;
-    }
-    const canvas: HTMLCanvasElement = gameField.current;
-    canvas.addEventListener('mousedown', startPaint);
-    return () => {
-      canvas.removeEventListener('mousedown', startPaint);
-    };
-  }, [startPaint]);
+  const count = width * height;
+  const [cells, setCells] = useState<Array<boolean>>(Array(count).fill(false));
 
   return (
-    <div className="border border-red-500">
-      <canvas
-        ref={gameField}
-        id="gameField"
-        width={width}
-        height={height}
-      ></canvas>
+    <div className="flex flex-col min-w-[550px]">
+      <button
+        onClick={() => {
+          setCells([]);
+          console.log(cells);
+        }}
+      >
+        click me
+      </button>
+      <div className={`grid gap-2 grid-cols-${width} grid-rows-${height}`}>
+        {Array.from({ length: count }, (_, i) => (
+          <Cell key={i} index={i} />
+        ))}
+      </div>
     </div>
   );
 };
