@@ -17,7 +17,7 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        ...generateGridColumns(100),
+        ...generateGridColumns(50),
       },
     },
   },
