@@ -12,14 +12,6 @@ const GameField = ({ width, height }: GameFieldProps) => {
 
   return (
     <div className="flex flex-col min-w-[550px]">
-      <button
-        onClick={() => {
-          setCells([]);
-          console.log(cells);
-        }}
-      >
-        click me
-      </button>
       <div className={`grid gap-2 grid-cols-${width} grid-rows-${height}`}>
         {Array.from({ length: count }, (_, i) => (
           <Cell key={i} index={i} />
