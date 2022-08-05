@@ -17,24 +17,30 @@ const fillIndexes = (size: number, minesCount: number): number[] => {
   return randIndexes;
 };
 
-type GameCell = {
+interface ICellPosition {
+  x: number;
+  y: number;
+}
+
+interface ICell {
+  isOpen: boolean;
+  position: ICellPosition;
+}
+
+interface IGameCell extends ICell {
   isMine: boolean;
-  position: {
-    x: number;
-    y: number;
-  };
   minesNearCount: number;
-};
+}
 
 const gameFieldArray = (
   width: number,
   height: number,
   minesCount: number
-): GameCell[] => {
+): IGameCell[] => {
   const size = width * height;
   const minesIndexes = fillIndexes(size, minesCount);
 
-  const gameField: GameCell[] = [];
+  const gameField: IGameCell[] = [];
   for (let i = 0; i < width; i++) {
     for (let j = 0; j < height; j++) {
       gameField.push({
@@ -44,13 +50,14 @@ const gameFieldArray = (
           y: j,
         },
         minesNearCount: 0,
+        isOpen: false,
       });
     }
   }
   return gameField;
 };
 
-const fillNumbers = (gameField: GameCell[]) => {
+const fillNumbers = (gameField: IGameCell[]) => {
   gameField.forEach((cell) => {
     if (!cell.isMine) {
       const minesNearCount = gameField
