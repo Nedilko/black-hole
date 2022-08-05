@@ -1,16 +1,15 @@
 import React from 'react';
-import { useCallback, useState } from 'react';
 
 type PropsType = {
   index: number;
   // onClick: (index: number) => void;
-  isMine: boolean;
-  minesNearCount: number;
+  isHole: boolean;
+  holesNearCount: number;
   isOpen: boolean;
   onOpen: (index: number, isMark: boolean) => void;
 };
 
-const Cell = ({ index, isMine, minesNearCount, isOpen, onOpen }: PropsType) => {
+const Cell = ({ index, isHole, holesNearCount, isOpen, onOpen }: PropsType) => {
   // const [isOpenCell, setIsOpenCell] = useState(isOpen);
   // const isRounded = isMine && isOpenCell;
 
@@ -31,15 +30,15 @@ const Cell = ({ index, isMine, minesNearCount, isOpen, onOpen }: PropsType) => {
     onOpen(index, e.type === 'contextmenu');
   };
 
-  const cellValue = isOpen ? (isMine ? '💥' : minesNearCount) : '';
+  const cellValue = isOpen ? (isHole ? '💥' : holesNearCount) : '';
 
   return (
     <button
       onClick={handleClick}
       onContextMenu={handleClick}
-      className={`w-12 h-12 ${isMine ? 'border hover:border-red-300' : ''} ${
+      className={`w-12 h-12 ${isHole ? 'border hover:border-red-300' : ''} ${
         isOpen
-          ? minesNearCount === 0
+          ? holesNearCount === 0
             ? 'rounded-md bg-gray-100'
             : 'rounded-full border-2'
           : 'bg-gray-200 hover:bg-gray-300 rounded-md'

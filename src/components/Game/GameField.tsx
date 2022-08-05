@@ -7,9 +7,9 @@ type GameFieldProps = {
   height: number;
 };
 
-const fillIndexes = (size: number, minesCount: number): number[] => {
+const getHolesIndexes = (size: number, holesCount: number): number[] => {
   const randIndexes: number[] = [];
-  while (randIndexes.length < minesCount) {
+  while (randIndexes.length < holesCount) {
     const index = Math.floor(Math.random() * size);
     if (!randIndexes.includes(index)) {
       randIndexes.push(index);
@@ -25,9 +25,10 @@ interface IBoardSize {
 
 interface IBoard {
   size: IBoardSize;
-  minesCount: number;
-  minesIndexes: number[];
+  holessCount: number;
+  holesIndexes: number[];
   cells: ICell[];
+  handleHoleClick: (index: number) => void;
 }
 
 interface ICellPosition {
@@ -41,28 +42,28 @@ interface ICell {
 }
 
 interface IGameCell extends ICell {
-  isMine: boolean;
-  minesNearCount: number;
+  isHole: boolean;
+  holesNearCount: number;
 }
 
 const gameFieldArray = (
   width: number,
   height: number,
-  minesCount: number
+  holesCount: number
 ): IGameCell[] => {
   const size = width * height;
-  const minesIndexes = fillIndexes(size, minesCount);
+  const holesIndexes = getHolesIndexes(size, holesCount);
 
   const gameField: IGameCell[] = [];
   for (let i = 0; i < width; i++) {
     for (let j = 0; j < height; j++) {
       gameField.push({
-        isMine: minesIndexes.includes(i * width + j),
+        isHole: holesIndexes.includes(i * width + j),
         position: {
           x: i,
           y: j,
         },
-        minesNearCount: 0,
+        holesNearCount: 0,
         isOpen: false,
       });
     }
@@ -72,8 +73,8 @@ const gameFieldArray = (
 
 const fillNumbers = (gameField: IGameCell[]) => {
   gameField.forEach((cell) => {
-    if (!cell.isMine) {
-      const minesNearCount = gameField
+    if (!cell.isHole) {
+      const holesNearCount = gameField
         .filter((c) => {
           return (
             (c.position.x === cell.position.x &&
@@ -94,8 +95,8 @@ const fillNumbers = (gameField: IGameCell[]) => {
               c.position.y === cell.position.y + 1)
           );
         })
-        .filter((c) => c.isMine).length;
-      cell.minesNearCount = minesNearCount;
+        .filter((c) => c.isHole).length;
+      cell.holesNearCount = holesNearCount;
     }
   });
 
@@ -105,21 +106,21 @@ const fillNumbers = (gameField: IGameCell[]) => {
 let CellItem = class {
   private readonly _position: ICellPosition;
   private _isOpen: boolean;
-  private readonly _isMine: boolean;
-  private readonly _minesNearCount: number;
+  private readonly _isHole: boolean;
+  private readonly _holesNearCount: number;
   private readonly _board: IBoard;
 
   constructor(
     position: ICellPosition,
     isOpen: boolean,
-    isMine: boolean,
-    minesNearCount: number,
+    isHole: boolean,
+    holesNearCount: number,
     board: IBoard
   ) {
     this._position = position;
     this._isOpen = isOpen;
-    this._isMine = isMine;
-    this._minesNearCount = minesNearCount;
+    this._isHole = isHole;
+    this._holesNearCount = holesNearCount;
     this._board = board;
   }
 
@@ -127,23 +128,34 @@ let CellItem = class {
     return this._position;
   }
 
-  public get isMine(): boolean {
-    return this._isMine;
+  private get isHole(): boolean {
+    return this._isHole;
   }
 
-  public get MinesNearCount(): number {
-    return this._minesNearCount;
+  public get HolesNearCount(): number {
+    return this._holesNearCount;
   }
 
   public get isOpen(): boolean {
     return this._isOpen;
   }
-  public set isOpen(isOpen: boolean) {
+
+  private set isOpen(isOpen: boolean) {
     this._isOpen = isOpen;
   }
 
   private get board(): IBoard {
     return this._board;
+  }
+
+  public open(): void {
+    this.isOpen = true;
+    if (this.isHole) {
+      this.board.cells.forEach((cell) => {
+        cell.isOpen = true;
+      });
+      this.board.handleHoleClick(this.index);
+    }
   }
 
   public get index(): number {
@@ -173,8 +185,8 @@ const GameField = ({ width, height }: GameFieldProps) => {
             <Cell
               key={i}
               index={i}
-              isMine={cells[i].isMine}
-              minesNearCount={cells[i].minesNearCount}
+              isHole={cells[i].isHole}
+              holesNearCount={cells[i].holesNearCount}
               isOpen={cells[i].isOpen}
               onOpen={handleOpen}
             />
