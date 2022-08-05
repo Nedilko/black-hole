@@ -38,7 +38,7 @@ const Cell = ({ index, isMine, minesNearCount }: PropsType) => {
           : 'bg-gray-200 hover:bg-gray-300'
       }`}
     >
-      {minesNearCount === 0 ? '💣' : minesNearCount}
+      {isMarkedMine ? '💥' : minesNearCount}
     </button>
   );
 };
