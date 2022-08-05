@@ -30,23 +30,33 @@ const Cell = ({ index, isHole, holesNearCount, isOpen, onOpen }: PropsType) => {
     onOpen(index, e.type === 'contextmenu');
   };
 
-  const cellValue = isOpen ? (isHole ? '💥' : holesNearCount) : '';
+  const isZeroHolesNear = holesNearCount === 0;
+
+  const cellValue = isOpen
+    ? isHole
+      ? '💥'
+      : isZeroHolesNear
+      ? ''
+      : holesNearCount
+    : '';
+
+  const cellClassName = isOpen
+    ? isHole
+      ? 'rounded-full border border-red-500'
+      : isZeroHolesNear
+      ? 'border-2 rounded-md'
+      : 'rounded-full border border-gray-500'
+    : 'rounded-md bg-gray-200';
 
   return (
     <button
       onClick={handleClick}
       onContextMenu={handleClick}
-      className={`w-12 h-12 ${isHole ? 'border hover:border-red-300' : ''} ${
-        isOpen
-          ? holesNearCount === 0
-            ? 'rounded-md bg-gray-100'
-            : 'rounded-full border-2'
-          : 'bg-gray-200 hover:bg-gray-300 rounded-md'
-      }`}
+      className={`w-12 h-12 ${cellClassName}`}
     >
       {cellValue}
     </button>
   );
-};
+};;;;
 
 export default React.memo(Cell);
