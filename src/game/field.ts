@@ -18,7 +18,15 @@ interface IGameCell extends ICell {
   isOpen: boolean;
   isHole: boolean;
   holesNearCount: number;
+  // onOpen: (position: ICellPosition) => void;
+  // onMark: (postision: ICellPosition) => void;
 }
+
+const getPosition = (index: number, size: IBoardSize): ICellPosition => {
+  const x = index % size.width;
+  const y = Math.floor(index / size.width);
+  return { x, y };
+};
 
 const getHolesIndexes = (size: IBoardSize, holesCount: number): number[] => {
   const indexesArray: number[] = [];
@@ -31,29 +39,41 @@ const getHolesIndexes = (size: IBoardSize, holesCount: number): number[] => {
   return indexesArray;
 };
 
+const getSurroundingIndexes = (position: ICellPosition, size: IBoardSize) => {
+  const indexesArray: number[] = [];
+  const { x, y } = position;
+  const xMin = x - 1;
+  const xMax = x + 1;
+  const yMin = y - 1;
+  const yMax = y + 1;
+  for (let i = xMin; i <= xMax; i++) {
+    for (let j = yMin; j <= yMax; j++) {
+      if (i >= 0 && i < size.width && j >= 0 && j < size.height) {
+        indexesArray.push(i + j * size.width);
+      }
+    }
+  }
+  return indexesArray;
+};
+
 export const getGameCellsData = (
   size: IBoardSize,
   holesCount: number
 ): IGameCell[] => {
-  const { width, height } = size;
   const holesIndexes = getHolesIndexes(size, holesCount);
 
-  const gameField: IGameCell[] = [];
-  //TODO: Array.from({ length: getSize(size) }, (_, i) => ({}))
-  for (let i = 0; i < width; i++) {
-    for (let j = 0; j < height; j++) {
-      gameField.push({
-        isHole: holesIndexes.includes(i * width + j),
-        position: {
-          x: i,
-          y: j,
-        },
-        holesNearCount: 0,
-        isOpen: false,
-      });
-    }
-  }
-  return gameField;
+  return Array.from({ length: getSize(size) }, (_, i) => {
+    const position = getPosition(i, size);
+    const isHole = (index: number) => holesIndexes.includes(index);
+
+    return {
+      isHole: isHole(i),
+      position,
+      holesNearCount: getSurroundingIndexes(position, size).filter(isHole)
+        .length,
+      isOpen: false,
+    };
+  });
 };
 
 // interface IBoard {
@@ -123,35 +143,3 @@ export const getGameCellsData = (
 //     return this.position.x + this.board.size.width * this.position.y;
 //   }
 // };
-
-export const fillNumbers = (gameField: IGameCell[]) => {
-  gameField.forEach((cell) => {
-    if (!cell.isHole) {
-      const holesNearCount = gameField
-        .filter((c) => {
-          return (
-            (c.position.x === cell.position.x &&
-              c.position.y === cell.position.y - 1) ||
-            (c.position.x === cell.position.x &&
-              c.position.y === cell.position.y + 1) ||
-            (c.position.x === cell.position.x - 1 &&
-              c.position.y === cell.position.y) ||
-            (c.position.x === cell.position.x + 1 &&
-              c.position.y === cell.position.y) ||
-            (c.position.x === cell.position.x - 1 &&
-              c.position.y === cell.position.y - 1) ||
-            (c.position.x === cell.position.x + 1 &&
-              c.position.y === cell.position.y - 1) ||
-            (c.position.x === cell.position.x - 1 &&
-              c.position.y === cell.position.y + 1) ||
-            (c.position.x === cell.position.x + 1 &&
-              c.position.y === cell.position.y + 1)
-          );
-        })
-        .filter((c) => c.isHole).length;
-      cell.holesNearCount = holesNearCount;
-    }
-  });
-
-  return gameField;
-};
