@@ -4,11 +4,13 @@ import { useCallback, useState } from 'react';
 type PropsType = {
   index: number;
   // onClick: (index: number) => void;
+  isMine: boolean;
+  minesNearCount: number;
 };
 
-const Cell = ({ index }: PropsType) => {
-  const [isMarkedMine, setIsMarkedMine] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+const Cell = ({ index, isMine, minesNearCount }: PropsType) => {
+  const [isMarkedMine, setIsMarkedMine] = useState(isMine);
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleClick = useCallback(
     (e: any) => {
@@ -31,9 +33,13 @@ const Cell = ({ index }: PropsType) => {
       onClick={handleClick}
       onContextMenu={handleClick}
       className={`rounded-md w-12 h-12 ${
-        isOpen ? 'bg-blue-200' : isMarkedMine ? 'bg-red-200' : 'bg-gray-200'
+        isMarkedMine
+          ? 'bg-red-200 hover:bg-red-300'
+          : 'bg-gray-200 hover:bg-gray-300'
       }`}
-    ></button>
+    >
+      {isMarkedMine ? '💥' : minesNearCount}
+    </button>
   );
 };
 

@@ -9,7 +9,7 @@ function App() {
         <Header />
       </header>
       <main className="flex mt-24 justify-center">
-        <GameField width={10} height={10} />
+        <GameField width={8} height={8} />
       </main>
       <footer className="flex mt-auto justify-center">
         <Footer />
