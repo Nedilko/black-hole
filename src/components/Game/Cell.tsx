@@ -5,9 +5,10 @@ type PropsType = {
   index: number;
   // onClick: (index: number) => void;
   isMine: boolean;
+  minesNearCount: number;
 };
 
-const Cell = ({ index, isMine }: PropsType) => {
+const Cell = ({ index, isMine, minesNearCount }: PropsType) => {
   const [isMarkedMine, setIsMarkedMine] = useState(isMine);
   const [isOpen, setIsOpen] = useState(true);
 
@@ -32,10 +33,13 @@ const Cell = ({ index, isMine }: PropsType) => {
       onClick={handleClick}
       onContextMenu={handleClick}
       className={`rounded-md w-12 h-12 ${
-        // isOpen ? 'bg-blue-200' : isMarkedMine ? 'bg-red-200' : 'bg-gray-200'
-        isMarkedMine ? 'bg-red-200' : 'bg-gray-200'
+        isMarkedMine
+          ? 'bg-red-200 hover:bg-red-300'
+          : 'bg-gray-200 hover:bg-gray-300'
       }`}
-    ></button>
+    >
+      {minesNearCount === 0 ? '💣' : minesNearCount}
+    </button>
   );
 };
 
