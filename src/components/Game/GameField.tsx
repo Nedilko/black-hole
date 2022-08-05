@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+import { useCallback } from 'react';
+import { useState } from 'react';
 import Cell from './Cell';
 
 type GameFieldProps = {
@@ -16,6 +17,18 @@ const fillIndexes = (size: number, minesCount: number): number[] => {
   }
   return randIndexes;
 };
+
+interface IBoardSize {
+  width: number;
+  height: number;
+}
+
+interface IBoard {
+  size: IBoardSize;
+  minesCount: number;
+  minesIndexes: number[];
+  cells: ICell[];
+}
 
 interface ICellPosition {
   x: number;
@@ -89,29 +102,87 @@ const fillNumbers = (gameField: IGameCell[]) => {
   return gameField;
 };
 
+let CellItem = class {
+  private readonly _position: ICellPosition;
+  private _isOpen: boolean;
+  private readonly _isMine: boolean;
+  private readonly _minesNearCount: number;
+  private readonly _board: IBoard;
+
+  constructor(
+    position: ICellPosition,
+    isOpen: boolean,
+    isMine: boolean,
+    minesNearCount: number,
+    board: IBoard
+  ) {
+    this._position = position;
+    this._isOpen = isOpen;
+    this._isMine = isMine;
+    this._minesNearCount = minesNearCount;
+    this._board = board;
+  }
+
+  public get position(): ICellPosition {
+    return this._position;
+  }
+
+  public get isMine(): boolean {
+    return this._isMine;
+  }
+
+  public get MinesNearCount(): number {
+    return this._minesNearCount;
+  }
+
+  public get isOpen(): boolean {
+    return this._isOpen;
+  }
+  public set isOpen(isOpen: boolean) {
+    this._isOpen = isOpen;
+  }
+
+  private get board(): IBoard {
+    return this._board;
+  }
+
+  public get index(): number {
+    return this.position.x + this.board.size.width * this.position.y;
+  }
+};
+
 const GameField = ({ width, height }: GameFieldProps) => {
   const count = width * height;
-  const field = useMemo(
-    () => fillNumbers(gameFieldArray(width, height, 20)),
-    [width, height]
+
+  const [cells, setCells] = useState(() =>
+    fillNumbers(gameFieldArray(width, height, 10))
   );
+
+  const handleOpen = useCallback((index: number, isMark: boolean) => {
+    setCells((current) => {
+      current[index].isOpen = true;
+      return [...current];
+    });
+  }, []);
 
   return (
     <div className="flex flex-col">
-      <div className={`grid gap-2 grid-cols-${width} grid-rows-${height}`}>
+      <div className={`grid gap-2 grid-cols-${width} grid-rows-${height} p-4`}>
         {Array.from({ length: count }, (_, i) => {
           return (
             <Cell
               key={i}
               index={i}
-              isMine={field[i].isMine}
-              minesNearCount={field[i].minesNearCount}
+              isMine={cells[i].isMine}
+              minesNearCount={cells[i].minesNearCount}
+              isOpen={cells[i].isOpen}
+              onOpen={handleOpen}
             />
           );
         })}
       </div>
     </div>
   );
-};;
+};
 
 export default GameField;
