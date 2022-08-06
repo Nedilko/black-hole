@@ -1,29 +1,11 @@
 import React from 'react';
+import type { IGameCell } from '../../game/field';
 
-type PropsType = {
-  index: number;
-  isHole: boolean;
-  holesNearCount: number;
-  isOpen: boolean;
-  onOpen: (index: number) => void;
-};
-
-const Cell = ({ index, isHole, holesNearCount, isOpen, onOpen }: PropsType) => {
-  // const handleClick = useCallback(
-  //   (e: any) => {
-  //     e.preventDefault();
-  //     if (e.type === 'click') {
-  //       onOpen(index);
-  //     } else if (e.type === 'contextmenu') {
-  //     }
-  //   },
-  //   [index]
-  // );
-
+const Cell = ({ handleOpen, holesNearCount, isHole, isOpen }: IGameCell) => {
   const handleClick = (e: any) => {
     e.preventDefault();
     if (e.type === 'click') {
-      onOpen(index);
+      handleOpen();
     } else if (e.type === 'contextmenu') {
     }
   };

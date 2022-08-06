@@ -6,6 +6,10 @@ export const getPosition = (index: number, size: IBoardSize): ICellPosition => {
   return { x, y };
 };
 
+export const getIndex = (position: ICellPosition, size: IBoardSize): number => {
+  return position.y * size.width + position.x;
+};
+
 export const getHolesIndexes = (
   size: IBoardSize,
   holesCount: number
@@ -77,6 +81,7 @@ export interface IBoard {
 
 export interface IBoardWithCells extends IBoard {
   cells: IGameCell[];
+  openedCellIndexes: number[];
 }
 
 export class GameBoard implements IBoardWithCells {
@@ -85,6 +90,7 @@ export class GameBoard implements IBoardWithCells {
   private _holesIndexes: number[];
   private _cells: IGameCell[];
   private _cellClickHandler: (index: number) => void;
+  private _openedCellIndexes: number[];
 
   constructor(
     size: IBoardSize,
@@ -97,6 +103,7 @@ export class GameBoard implements IBoardWithCells {
     this._holesIndexes = holesIndexes;
     this._cells = getGameCellsData(this);
     this._cellClickHandler = cellClickHandler;
+    this._openedCellIndexes = [];
   }
 
   public get size() {
@@ -119,6 +126,14 @@ export class GameBoard implements IBoardWithCells {
     return this._cellClickHandler;
   }
 
+  public get openedCellIndexes() {
+    return this._openedCellIndexes;
+  }
+
+  public set openedCellIndexes(openedCellIndexes: number[]) {
+    this._openedCellIndexes = openedCellIndexes;
+  }
+
   public static createBoard(
     size: IBoardSize,
     holesCount: number,
@@ -138,10 +153,11 @@ interface ICell {
   position: ICellPosition;
 }
 
-interface IGameCell extends ICell {
+export interface IGameCell extends ICell {
   isOpen: boolean;
   isHole: boolean;
   holesNearCount: number;
+  handleOpen: () => void;
 }
 
 export class GameCell implements IGameCell {
@@ -163,6 +179,7 @@ export class GameCell implements IGameCell {
     this._isHole = isHole;
     this._holesNearCount = holesNearCount;
     this._board = board;
+    this.handleOpen = this.handleOpen.bind(this);
   }
 
   public get position(): ICellPosition {
@@ -191,6 +208,20 @@ export class GameCell implements IGameCell {
 
   public get index(): number {
     return this.position.x + this.board.size.width * this.position.y;
+  }
+
+  public handleOpen() {
+    // if (this.isHole) {
+    //   return;
+    // }
+    if (this.isOpen) {
+      return;
+    }
+    this.isOpen = true;
+    // if (this.holesNearCount === 0) {
+    //   this.board.cellClickHandler(getIndex(this.position, this.board.size));
+    // }
+    this.board.cellClickHandler(getIndex(this.position, this.board.size));
   }
 
   public static createCell(
