@@ -1,16 +1,25 @@
 import { useCallback, useState } from 'react';
 import {
-  getGameCellsData,
   getSurroundingIndexes,
   getPosition,
+  GameBoard,
+  getHolesIndexes,
 } from '../../game/field';
 import Cell from './Cell';
-import type { IBoardSize } from '../../game/field';
+import type { IBoardSize, IBoardWithCells } from '../../game/field';
+
+const boardCellClickHandler = (index: number) => {
+  console.log(`Cell ${index} was clicked`);
+};
 
 const GameField = ({ width, height }: IBoardSize) => {
-  const [cells, setCells] = useState(() =>
-    getGameCellsData({ width, height }, 7)
+  const board: IBoardWithCells = GameBoard.createBoard(
+    { width, height },
+    7,
+    getHolesIndexes({ width, height }, 7),
+    boardCellClickHandler
   );
+  const [cells, setCells] = useState(board.cells);
 
   const openedCells: number[] = [];
 
