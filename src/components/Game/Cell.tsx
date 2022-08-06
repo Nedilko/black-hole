@@ -6,7 +6,8 @@ type PropsType = {
   isHole: boolean;
   holesNearCount: number;
   isOpen: boolean;
-  onOpen: (index: number, isMark: boolean) => void;
+  // onOpen: (index: number, isMark: boolean) => void;
+  onOpen: (index: number) => void;
 };
 
 const Cell = ({ index, isHole, holesNearCount, isOpen, onOpen }: PropsType) => {
@@ -27,7 +28,8 @@ const Cell = ({ index, isHole, holesNearCount, isOpen, onOpen }: PropsType) => {
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    onOpen(index, e.type === 'contextmenu');
+    // onOpen(index, e.type === 'contextmenu');
+    onOpen(index);
   };
 
   const isZeroHolesNear = holesNearCount === 0;

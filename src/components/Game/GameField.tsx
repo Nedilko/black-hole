@@ -1,19 +1,28 @@
 import { useCallback, useState } from 'react';
-import { getGameCellsData } from '../../game/field';
+import {
+  getGameCellsData,
+  getSurroundingIndexes,
+  getPosition,
+} from '../../game/field';
 import Cell from './Cell';
 import type { IBoardSize } from '../../game/field';
 
 const GameField = ({ width, height }: IBoardSize) => {
-  const count = width * height;
-
   const [cells, setCells] = useState(() =>
-    getGameCellsData({ width, height }, 10)
+    getGameCellsData({ width, height }, 7)
   );
 
-  const handleOpen = useCallback((index: number, isMark: boolean) => {
+  const openedCells: number[] = [];
+
+  const handleOpenAllHoles = useCallback(() => {
     setCells((current) => {
-      current[index].isOpen = true;
-      return [...current];
+      return current.map((cell) => {
+        const newCell = cell;
+        if (newCell.isHole) {
+          newCell.isOpen = true;
+        }
+        return newCell;
+      });
     });
   }, []);
 
@@ -23,10 +32,31 @@ const GameField = ({ width, height }: IBoardSize) => {
     });
   }, []);
 
-  const handleOpenAllHoles = useCallback(() => {
+  const handleOpen = useCallback((index: number) => {
+    if (cells[index].isHole) {
+      handleOpenAllHoles();
+      return;
+    }
+
+    const surrounding = getSurroundingIndexes(
+      getPosition(index, { width, height }),
+      { width, height }
+    );
+
+    openedCells.push(index);
+
     setCells((current) => {
-      return current.map((cell) => ({ ...cell, isOpen: cell.isHole }));
+      current[index].isOpen = true;
+      return [...current];
     });
+
+    if (cells[index].holesNearCount === 0) {
+      surrounding.forEach((i) => {
+        if (!openedCells.includes(i)) {
+          handleOpen(i);
+        }
+      });
+    }
   }, []);
 
   return (
@@ -34,7 +64,7 @@ const GameField = ({ width, height }: IBoardSize) => {
       <button onClick={handleOpenAllCells}>open all</button>
       <button onClick={handleOpenAllHoles}>open all holes</button>
       <div className={`grid gap-2 grid-cols-${width} grid-rows-${height} p-4`}>
-        {Array.from({ length: count }, (_, i) => {
+        {Array.from({ length: width * height }, (_, i) => {
           return (
             <Cell
               key={i}

@@ -18,11 +18,10 @@ interface IGameCell extends ICell {
   isOpen: boolean;
   isHole: boolean;
   holesNearCount: number;
-  // onOpen: (position: ICellPosition) => void;
   // onMark: (postision: ICellPosition) => void;
 }
 
-const getPosition = (index: number, size: IBoardSize): ICellPosition => {
+export const getPosition = (index: number, size: IBoardSize): ICellPosition => {
   const x = index % size.width;
   const y = Math.floor(index / size.width);
   return { x, y };
@@ -39,7 +38,10 @@ const getHolesIndexes = (size: IBoardSize, holesCount: number): number[] => {
   return indexesArray;
 };
 
-const getSurroundingIndexes = (position: ICellPosition, size: IBoardSize) => {
+export const getSurroundingIndexes = (
+  position: ICellPosition,
+  size: IBoardSize
+) => {
   const indexesArray: number[] = [];
   const { x, y } = position;
   const xMin = x - 1;
@@ -48,7 +50,13 @@ const getSurroundingIndexes = (position: ICellPosition, size: IBoardSize) => {
   const yMax = y + 1;
   for (let i = xMin; i <= xMax; i++) {
     for (let j = yMin; j <= yMax; j++) {
-      if (i >= 0 && i < size.width && j >= 0 && j < size.height) {
+      if (
+        i >= 0 &&
+        i < size.width &&
+        j >= 0 &&
+        j < size.height &&
+        !(i === x && j === y)
+      ) {
         indexesArray.push(i + j * size.width);
       }
     }
