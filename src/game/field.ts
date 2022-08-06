@@ -18,7 +18,6 @@ interface IGameCell extends ICell {
   isOpen: boolean;
   isHole: boolean;
   holesNearCount: number;
-  // onMark: (postision: ICellPosition) => void;
 }
 
 export const getPosition = (index: number, size: IBoardSize): ICellPosition => {

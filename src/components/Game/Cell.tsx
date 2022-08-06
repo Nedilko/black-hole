@@ -2,24 +2,18 @@ import React from 'react';
 
 type PropsType = {
   index: number;
-  // onClick: (index: number) => void;
   isHole: boolean;
   holesNearCount: number;
   isOpen: boolean;
-  // onOpen: (index: number, isMark: boolean) => void;
   onOpen: (index: number) => void;
 };
 
 const Cell = ({ index, isHole, holesNearCount, isOpen, onOpen }: PropsType) => {
-  // const [isOpenCell, setIsOpenCell] = useState(isOpen);
-  // const isRounded = isMine && isOpenCell;
-
   // const handleClick = useCallback(
   //   (e: any) => {
   //     e.preventDefault();
-  //     console.log(`Cell ${index} clicked`);
   //     if (e.type === 'click') {
-  //       setIsOpenCell(true);
+  //       onOpen(index);
   //     } else if (e.type === 'contextmenu') {
   //     }
   //   },
@@ -28,19 +22,17 @@ const Cell = ({ index, isHole, holesNearCount, isOpen, onOpen }: PropsType) => {
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    // onOpen(index, e.type === 'contextmenu');
-    onOpen(index);
+    if (e.type === 'click') {
+      onOpen(index);
+    } else if (e.type === 'contextmenu') {
+    }
   };
 
   const isZeroHolesNear = holesNearCount === 0;
 
-  const cellValue = isOpen
-    ? isHole
-      ? '💥'
-      : isZeroHolesNear
-      ? ''
-      : holesNearCount
-    : '';
+  const cellValue = isHole ? '💥' : isZeroHolesNear ? '' : holesNearCount;
+
+  let value = isOpen ? cellValue : '';
 
   const cellClassName = isOpen
     ? isHole
@@ -56,9 +48,9 @@ const Cell = ({ index, isHole, holesNearCount, isOpen, onOpen }: PropsType) => {
       onContextMenu={handleClick}
       className={`w-12 h-12 ${cellClassName}`}
     >
-      {cellValue}
+      {value}
     </button>
   );
-};;;;
+};
 
 export default React.memo(Cell);
