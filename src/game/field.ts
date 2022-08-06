@@ -76,7 +76,7 @@ export interface IBoard {
   size: IBoardSize;
   holesCount: number;
   holesIndexes: number[];
-  cellClickHandler: (index: number) => void;
+  handleOpenCell: (index: number) => void;
 }
 
 export interface IBoardWithCells extends IBoard {
@@ -85,24 +85,24 @@ export interface IBoardWithCells extends IBoard {
 }
 
 export class GameBoard implements IBoardWithCells {
-  private _size: IBoardSize;
-  private _holesCount: number;
+  private readonly _size: IBoardSize;
+  private readonly _holesCount: number;
   private _holesIndexes: number[];
-  private _cells: IGameCell[];
-  private _cellClickHandler: (index: number) => void;
+  private readonly _cells: IGameCell[];
+  private _openCellCallback: (index: number) => void;
   private _openedCellIndexes: number[];
 
   constructor(
     size: IBoardSize,
     holesCount: number,
     holesIndexes: number[],
-    cellClickHandler: (index: number) => void
+    openCellCallback: (index: number) => void
   ) {
     this._size = size;
     this._holesCount = holesCount;
     this._holesIndexes = holesIndexes;
     this._cells = getGameCellsData(this);
-    this._cellClickHandler = cellClickHandler;
+    this._openCellCallback = openCellCallback;
     this._openedCellIndexes = [];
   }
 
@@ -122,25 +122,22 @@ export class GameBoard implements IBoardWithCells {
     return this._cells;
   }
 
-  public get cellClickHandler() {
-    return this._cellClickHandler;
+  public handleOpenCell(index: number) {
+    this._openedCellIndexes.push(index);
+    this._openCellCallback(index);
   }
 
   public get openedCellIndexes() {
     return this._openedCellIndexes;
   }
 
-  public set openedCellIndexes(openedCellIndexes: number[]) {
-    this._openedCellIndexes = openedCellIndexes;
-  }
-
   public static createBoard(
     size: IBoardSize,
     holesCount: number,
     holesIndexes: number[],
-    cellClickHandler: (index: number) => void
+    openCellCallback: (index: number) => void
   ) {
-    return new GameBoard(size, holesCount, holesIndexes, cellClickHandler);
+    return new GameBoard(size, holesCount, holesIndexes, openCellCallback);
   }
 }
 
@@ -165,14 +162,14 @@ export class GameCell implements IGameCell {
   private _isOpen: boolean;
   private readonly _isHole: boolean;
   private readonly _holesNearCount: number;
-  private readonly _board: IBoard;
+  private readonly _board: IBoardWithCells;
 
   constructor(
     position: ICellPosition,
     isOpen: boolean,
     isHole: boolean,
     holesNearCount: number,
-    board: IBoard
+    board: IBoardWithCells
   ) {
     this._position = position;
     this._isOpen = isOpen;
@@ -202,7 +199,7 @@ export class GameCell implements IGameCell {
     this._isOpen = isOpen;
   }
 
-  private get board(): IBoard {
+  private get board(): IBoardWithCells {
     return this._board;
   }
 
@@ -221,14 +218,14 @@ export class GameCell implements IGameCell {
     // if (this.holesNearCount === 0) {
     //   this.board.cellClickHandler(getIndex(this.position, this.board.size));
     // }
-    this.board.cellClickHandler(getIndex(this.position, this.board.size));
+    this.board.handleOpenCell(this.index);
   }
 
   public static createCell(
     position: ICellPosition,
     isHole: boolean,
     holesNearCount: number,
-    board: IBoard
+    board: IBoardWithCells
   ): IGameCell {
     return new GameCell(position, false, isHole, holesNearCount, board);
   }
