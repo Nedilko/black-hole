@@ -133,6 +133,7 @@ export class GameBoard implements IBoardWithCells {
     if (this.cells[index].holesNearCount === 0) {
       surrounding.forEach((i) => {
         if (!this.openedCellIndexes.includes(i)) {
+          //TODO: setTimeout(() => this.cells[i].handleOpen(), 30);
           this.cells[i].handleOpen();
         }
       });
