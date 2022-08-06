@@ -84,7 +84,7 @@ export interface IBoardWithCells extends IBoard {
   openedCellIndexes: number[];
 }
 
-export class GameBoard implements IBoardWithCells {
+export class GameBoard implements IBoard {
   private readonly _size: IBoardSize;
   private readonly _holesCount: number;
   private _holesIndexes: number[];
