@@ -58,7 +58,7 @@ export const getGameCellsData = (board: IBoardWithCells): IGameCell[] => {
     const position = getPosition(i, size);
     const isHole = (index: number) => holesIndexes.includes(index);
 
-    return GameCell.createCell(
+    return GameCell.create(
       position,
       isHole(i),
       getSurroundingIndexes(position, size).filter(isHole).length,
@@ -124,6 +124,20 @@ export class GameBoard implements IBoardWithCells {
 
   public handleOpenCell(index: number) {
     this._openedCellIndexes.push(index);
+
+    const surrounding = getSurroundingIndexes(
+      this.cells[index].position,
+      this.size
+    );
+
+    if (this.cells[index].holesNearCount === 0) {
+      surrounding.forEach((i) => {
+        if (!this.openedCellIndexes.includes(i)) {
+          this.cells[i].handleOpen();
+        }
+      });
+    }
+
     this._openCellCallback(index);
   }
 
@@ -131,7 +145,7 @@ export class GameBoard implements IBoardWithCells {
     return this._openedCellIndexes;
   }
 
-  public static createBoard(
+  public static create(
     size: IBoardSize,
     holesCount: number,
     holesIndexes: number[],
@@ -215,13 +229,11 @@ export class GameCell implements IGameCell {
       return;
     }
     this.isOpen = true;
-    // if (this.holesNearCount === 0) {
-    //   this.board.cellClickHandler(getIndex(this.position, this.board.size));
-    // }
+
     this.board.handleOpenCell(this.index);
   }
 
-  public static createCell(
+  public static create(
     position: ICellPosition,
     isHole: boolean,
     holesNearCount: number,
@@ -229,4 +241,4 @@ export class GameCell implements IGameCell {
   ): IGameCell {
     return new GameCell(position, false, isHole, holesNearCount, board);
   }
-};
+}
