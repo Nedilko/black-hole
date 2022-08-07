@@ -2,24 +2,25 @@ import { useState } from 'react';
 import GameField from './components/Game/GameField';
 import Footer from './components/UI/Footer';
 import Header from './components/UI/Header';
-import { NumberInput } from './components/UI/NumberInput';
+import SettingsDialog from './components/UI/SettingsDialog';
 import { IBoardSize } from './game/field';
-import { getSize } from './game/helpers';
+
+export interface ISettings {
+  size: IBoardSize;
+  holesCount: number;
+}
 
 function App() {
-  const [size, setSize] = useState<IBoardSize>({ width: 8, height: 8 });
-  const [holesCount, setHolesCount] = useState<number>(7);
+  const [isStarted, setIsStarted] = useState(false);
+  const [settings, setSettings] = useState<ISettings>({
+    size: { width: 8, height: 8 },
+    holesCount: 7,
+  });
 
-  const handleChangeWidth = (value: number) => {
-    setSize({ ...size, width: value });
-  };
-
-  const handleChangeHeight = (value: number) => {
-    setSize({ ...size, height: value });
-  };
-
-  const handleChangeHolesCount = (value: number) => {
-    setHolesCount(value);
+  const handleStartGame = (settings: ISettings) => {
+    setSettings(settings);
+    console.log('game started wisth settings: ', settings);
+    setIsStarted(true);
   };
 
   return (
@@ -28,32 +29,10 @@ function App() {
         <Header />
       </header>
       <main className="flex flex-col mt-24 justify-center items-center">
-        <div className="flex mt-4 ">
-          <NumberInput
-            label="Width:"
-            value={size.width}
-            min={2}
-            max={20}
-            handleChange={handleChangeWidth}
-          />
-          <NumberInput
-            label="Height:"
-            min={2}
-            max={20}
-            value={size.height}
-            handleChange={handleChangeHeight}
-          />
-        </div>
-        <div className="flex mt-4">
-          <NumberInput
-            label="Holes count:"
-            min={1}
-            max={getSize(size) - 1}
-            value={size.height}
-            handleChange={handleChangeHolesCount}
-          />
-        </div>
-        <GameField size={size} holesCount={holesCount} />
+        {!isStarted && <SettingsDialog onStartGame={handleStartGame} />}
+        {isStarted && (
+          <GameField size={settings.size} holesCount={settings.holesCount} />
+        )}
       </main>
       <footer className="flex mt-auto justify-center">
         <Footer />

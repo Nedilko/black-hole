@@ -34,7 +34,7 @@ const Cell = ({ handleOpen, holesNearCount, isHole, isOpen }: PropsType) => {
     <button
       onClick={handleClick}
       onContextMenu={handleClick}
-      className={`text-gray-300 text-2xl font-medium w-12 h-12 opacity-90 transition ease-in-out duration-150 ${cellClassName}`}
+      className={`text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 ${cellClassName}`}
     >
       {value}
     </button>

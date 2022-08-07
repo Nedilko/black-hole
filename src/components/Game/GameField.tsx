@@ -14,7 +14,9 @@ const GameField = ({ size, holesCount }: PropsType) => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex">{getSize(size) - openedIndexesCount}</div>
+      <div className="flex text-white">
+        {getSize(size) - openedIndexesCount}
+      </div>
       <div className="flex flex-col">
         <div
           className={`grid gap-2 grid-cols-${width} grid-rows-${height} p-4`}
