@@ -78,11 +78,13 @@ export interface IBoard {
   holesIndexes: number[];
   handleOpenSurroundingCells: (index: number) => void;
   handleOpenAllHoles: () => void;
+  handleFinish: () => void;
 }
 
 export interface IBoardWithCells extends IBoard {
   cells: IGameCell[];
   openedCellIndexes: number[];
+  isFinished: boolean;
 }
 
 export class GameBoard implements IBoard {
@@ -91,20 +93,25 @@ export class GameBoard implements IBoard {
   private _holesIndexes: number[];
   private readonly _cells: IGameCell[];
   private _openCellCallback: (index: number) => void;
+  private _finishCallback: () => void;
   private _openedCellIndexes: number[];
+  private _isFinished: boolean;
 
   constructor(
     size: IBoardSize,
     holesCount: number,
     holesIndexes: number[],
-    openCellCallback: (index: number) => void
+    openCellCallback: (index: number) => void,
+    finishCallback: () => void
   ) {
     this._size = size;
     this._holesCount = holesCount;
     this._holesIndexes = holesIndexes;
     this._cells = getGameCellsData(this);
     this._openCellCallback = openCellCallback;
+    this._finishCallback = finishCallback;
     this._openedCellIndexes = [];
+    this._isFinished = false;
   }
 
   public get size() {
@@ -123,8 +130,12 @@ export class GameBoard implements IBoard {
     return this._cells;
   }
 
-  public handleOpenCell(index: number) {
-    this.cells[index].handleOpen();
+  public get isFinished() {
+    return this._isFinished;
+  }
+
+  public set isFinished(value: boolean) {
+    this._isFinished = value;
   }
 
   public handleOpenSurroundingCells(index: number) {
@@ -156,6 +167,12 @@ export class GameBoard implements IBoard {
     });
   }
 
+  public handleFinish() {
+    this.isFinished = true;
+    this._finishCallback();
+    console.log('GameBoard: finish');
+  }
+
   public get openedCellIndexes() {
     return this._openedCellIndexes;
   }
@@ -163,10 +180,17 @@ export class GameBoard implements IBoard {
   public static create(
     size: IBoardSize,
     holesCount: number,
-    openCellCallback: (index: number) => void
+    openCellCallback: (index: number) => void,
+    finishCallback: () => void
   ) {
     const holesIndexes = getHolesIndexes(size, holesCount);
-    return new GameBoard(size, holesCount, holesIndexes, openCellCallback);
+    return new GameBoard(
+      size,
+      holesCount,
+      holesIndexes,
+      openCellCallback,
+      finishCallback
+    );
   }
 }
 
@@ -237,7 +261,12 @@ export class GameCell implements IGameCell {
   }
 
   public handleOpen() {
+    if (this.board.isFinished) {
+      return;
+    }
+
     if (this.isHole) {
+      this.board.handleFinish();
       this.board.handleOpenAllHoles();
       return;
     }

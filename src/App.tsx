@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import GameField from './components/Game/GameField';
 import Footer from './components/UI/Footer';
 import GameControls from './components/UI/GameControls';
@@ -30,6 +30,16 @@ function App() {
     setIsFinished(true);
   };
 
+  const handleTryAgain = () => {
+    console.log('try again');
+    setIsFinished(false);
+    setSettings({
+      size: Object.create({ width: 8, height: 8 }),
+      holesCount: 7,
+    });
+  };
+  console.log('app rendered');
+
   return (
     <div className="font-extralight bg-gradient-to-b from-[#06070d] via-[#061234] to-[#0e103e]">
       <div className="flex flex-col min-h-screen p-4 overflow-x-scroll">
@@ -49,7 +59,7 @@ function App() {
         <footer className="flex flex-col mt-auto justify-center items-center">
           <div className="flex mb-4">
             {isFinished && (
-              <GameControls onTryAgain={() => {}} onMainMenu={() => {}} />
+              <GameControls onTryAgain={handleTryAgain} onMainMenu={() => {}} />
             )}
           </div>
           <Footer />
