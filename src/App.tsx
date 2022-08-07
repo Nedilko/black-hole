@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import GameField from './components/Game/GameField';
 import Footer from './components/UI/Footer';
 import GameControls from './components/UI/GameControls';

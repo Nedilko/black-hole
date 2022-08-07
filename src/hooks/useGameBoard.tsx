@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { GameBoard, IBoardWithCells, IBoardSize } from '../game/field';
 
 export const useGameBoard = (
@@ -13,7 +13,7 @@ export const useGameBoard = (
         size,
         holesCount,
         () => {
-          setOpenedIndexes(board.openedCellIndexes.length);
+          setOpenedCellCount(board.openedCellCount);
           onOpenCell();
         },
         onFinish
@@ -21,9 +21,12 @@ export const useGameBoard = (
     [holesCount, size]
   );
 
-  const [openedIndexesCount, setOpenedIndexes] = useState(
-    board.openedCellIndexes.length
-  );
+  const [openedCellCount, setOpenedCellCount] = useState(0);
 
-  return [board, openedIndexesCount];
+  useEffect(() => {
+    setOpenedCellCount(board.openedCellCount);
+    console.log('openedCellCount', openedCellCount);
+  }, [board.openedCellCount]);
+
+  return [board, openedCellCount];
 };
