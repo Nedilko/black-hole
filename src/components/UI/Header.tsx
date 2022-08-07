@@ -1,6 +1,6 @@
 const Header = () => {
   return (
-    <div className="text-4xl text-gray-300/80 uppercase mt-8 text-shadow">
+    <div className="text-5xl text-gray-300/80 uppercase mt-8 text-shadow">
       find black holes
     </div>
   );
