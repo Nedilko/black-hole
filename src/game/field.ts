@@ -76,7 +76,8 @@ export interface IBoard {
   size: IBoardSize;
   holesCount: number;
   holesIndexes: number[];
-  handleOpenCell: (index: number) => void;
+  handleOpenSurroundingCells: (index: number) => void;
+  handleOpenAllHoles: () => void;
 }
 
 export interface IBoardWithCells extends IBoard {
@@ -123,6 +124,10 @@ export class GameBoard implements IBoard {
   }
 
   public handleOpenCell(index: number) {
+    this.cells[index].handleOpen();
+  }
+
+  public handleOpenSurroundingCells(index: number) {
     this._openedCellIndexes.push(index);
 
     const surrounding = getSurroundingIndexes(
@@ -140,6 +145,16 @@ export class GameBoard implements IBoard {
     }
 
     this._openCellCallback(index);
+  }
+
+  public handleOpenAllHoles() {
+    const cellsWithHoles = this.cells.filter((cell) => cell.isHole);
+    cellsWithHoles.forEach((cell) => {
+      const index = getIndex(cell.position, this.size);
+      this._openedCellIndexes.push(index);
+      cell.isOpen = true;
+      this._openCellCallback(index);
+    });
   }
 
   public get openedCellIndexes() {
@@ -223,15 +238,16 @@ export class GameCell implements IGameCell {
   }
 
   public handleOpen() {
-    // if (this.isHole) {
-    //   return;
-    // }
+    if (this.isHole) {
+      this.board.handleOpenAllHoles();
+      return;
+    }
     if (this.isOpen) {
       return;
     }
     this.isOpen = true;
 
-    this.board.handleOpenCell(this.index);
+    this.board.handleOpenSurroundingCells(this.index);
   }
 
   public static create(
