@@ -7,7 +7,7 @@ export const useGameBoard = (size: IBoardSize, holesCount: number) => {
       GameBoard.create(size, holesCount, () => {
         setOpenedIndexes(board.openedCellIndexes.length);
       }),
-    []
+    [holesCount, size]
   );
 
   const [openedIndexesCount, setOpenedIndexes] = useState(
