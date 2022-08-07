@@ -164,9 +164,9 @@ export class GameBoard implements IBoard {
   public static create(
     size: IBoardSize,
     holesCount: number,
-    holesIndexes: number[],
     openCellCallback: (index: number) => void
   ) {
+    const holesIndexes = getHolesIndexes(size, holesCount);
     return new GameBoard(size, holesCount, holesIndexes, openCellCallback);
   }
 }

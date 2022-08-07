@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { GameBoard, getHolesIndexes } from '../../game/field';
+import { GameBoard } from '../../game/field';
 import Cell from './Cell';
 import type { IBoardSize, IBoardWithCells } from '../../game/field';
 
@@ -10,13 +10,7 @@ const GameField = ({ width, height }: IBoardSize) => {
   };
 
   const board: IBoardWithCells = useMemo(
-    () =>
-      GameBoard.create(
-        { width, height },
-        7,
-        getHolesIndexes({ width, height }, 7),
-        boardCellOpenHandler
-      ),
+    () => GameBoard.create({ width, height }, 7, boardCellOpenHandler),
     [width, height]
   );
 
