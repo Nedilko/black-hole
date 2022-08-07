@@ -53,6 +53,7 @@ const GameField = ({ width, height }: IBoardSize) => {
     if (cells[index].holesNearCount === 0) {
       surrounding.forEach((i) => {
         if (!openedCells.includes(i)) {
+          //TODO:  setTimeout(() => handleOpen(i), 30);
           handleOpen(i);
         }
       });
