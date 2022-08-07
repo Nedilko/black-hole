@@ -2,19 +2,30 @@ import Cell from './Cell';
 import type { IBoardSize } from '../../game/field';
 import { useGameBoard } from '../../hooks/useGameBoard';
 import { getSize } from '../../game/helpers';
+import { useEffect } from 'react';
 
 type PropsType = {
   size: IBoardSize;
   holesCount: number;
+  onFinish: () => void;
 };
 
-const GameField = ({ size, holesCount }: PropsType) => {
-  const { board, openedIndexesCount } = useGameBoard(size, holesCount);
+const GameField = ({ size, holesCount, onFinish }: PropsType) => {
+  const { board, openedIndexesCount, isFinished } = useGameBoard(
+    size,
+    holesCount
+  );
   const { width, height } = size;
+
+  useEffect(() => {
+    if (isFinished) {
+      onFinish();
+    }
+  }, [isFinished, onFinish]);
 
   return (
     <div className="flex flex-col">
-      <div className="flex text-white">
+      <div className="flex text-white hover:underline">
         {getSize(size) - openedIndexesCount}
       </div>
       <div className="flex flex-col">
