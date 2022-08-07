@@ -16,7 +16,7 @@ function App() {
   const [isFinished, setIsFinished] = useState(false);
   const [settings, setSettings] = useState<ISettings>({
     size: { width: 8, height: 8 },
-    holesCount: 7,
+    holesCount: 10,
   });
 
   const handleStartGame = (settings: ISettings) => {
@@ -35,9 +35,20 @@ function App() {
     setIsFinished(false);
     setSettings({
       size: Object.create({ width: 8, height: 8 }),
-      holesCount: 7,
+      holesCount: 10,
     });
   };
+
+  const handleBackToMenu = () => {
+    console.log('back to menu');
+    setIsStarted(false);
+    setIsFinished(false);
+    setSettings({
+      size: Object.create({ width: 8, height: 8 }),
+      holesCount: 10,
+    });
+  };
+
   console.log('app rendered');
 
   return (
@@ -47,19 +58,27 @@ function App() {
           <Header cellsCount={10} openedCellsCount={10} timer={'00:12'} />
         </header>
         <main className="flex flex-col mt-24 justify-center items-center">
-          {!isStarted && <SettingsDialog onStartGame={handleStartGame} />}
+          {!isStarted && (
+            <SettingsDialog settings={settings} onStartGame={handleStartGame} />
+          )}
           {isStarted && (
             <GameField
               size={settings.size}
               holesCount={settings.holesCount}
               onFinish={handleFinishGame}
+              onOpenCell={() => {
+                console.log('cell opened');
+              }}
             />
           )}
         </main>
         <footer className="flex flex-col mt-auto justify-center items-center">
           <div className="flex mb-4">
             {isFinished && (
-              <GameControls onTryAgain={handleTryAgain} onMainMenu={() => {}} />
+              <GameControls
+                onTryAgain={handleTryAgain}
+                onMainMenu={handleBackToMenu}
+              />
             )}
           </div>
           <Footer />

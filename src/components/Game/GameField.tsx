@@ -2,26 +2,26 @@ import Cell from './Cell';
 import type { IBoardSize } from '../../game/field';
 import { useGameBoard } from '../../hooks/useGameBoard';
 import { getSize } from '../../game/helpers';
-import { useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 type PropsType = {
   size: IBoardSize;
   holesCount: number;
   onFinish: () => void;
+  onOpenCell: () => void;
 };
 
-const GameField = ({ size, holesCount, onFinish }: PropsType) => {
-  const { board, openedIndexesCount } = useGameBoard(
-    size,
-    holesCount,
-    onFinish
-  );
+const GameField = ({ size, holesCount, onFinish, onOpenCell }: PropsType) => {
+  const handleOpenCell = () => {
+    onOpenCell();
+  };
+  const [board] = useGameBoard(size, holesCount, onFinish, handleOpenCell);
   const { width, height } = size;
 
   return (
     <div className="flex flex-col">
       <div className="flex text-white hover:underline">
-        {getSize(size) - openedIndexesCount}
+        {getSize(size) - holesCount - board.openedCellCount}
       </div>
       <div className="flex flex-col">
         <div

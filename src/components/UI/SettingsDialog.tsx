@@ -6,9 +6,10 @@ import { NumberInput } from './NumberInput';
 
 type PropsType = {
   onStartGame: (settings: ISettings) => void;
+  settings: ISettings;
 };
 
-const SettingsDialog = ({ onStartGame }: PropsType) => {
+const SettingsDialog = ({ onStartGame, settings }: PropsType) => {
   const handleApply = () => {
     console.log('apply');
     onStartGame({
@@ -17,8 +18,11 @@ const SettingsDialog = ({ onStartGame }: PropsType) => {
     });
   };
 
-  const [size, setSize] = useState<IBoardSize>({ width: 8, height: 8 });
-  const [holesCount, setHolesCount] = useState<number>(7);
+  const [size, setSize] = useState<IBoardSize>({
+    width: settings.size.width,
+    height: settings.size.height,
+  });
+  const [holesCount, setHolesCount] = useState<number>(settings.holesCount);
 
   const handleChangeWidth = (value: number) => {
     setSize({ ...size, width: value });

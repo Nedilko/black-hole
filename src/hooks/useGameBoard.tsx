@@ -4,8 +4,9 @@ import { GameBoard, IBoardWithCells, IBoardSize } from '../game/field';
 export const useGameBoard = (
   size: IBoardSize,
   holesCount: number,
-  onFinish: () => void
-) => {
+  onFinish: () => void,
+  onOpenCell: () => void
+): [IBoardWithCells, number] => {
   const board: IBoardWithCells = useMemo(
     () =>
       GameBoard.create(
@@ -13,10 +14,9 @@ export const useGameBoard = (
         holesCount,
         () => {
           setOpenedIndexes(board.openedCellIndexes.length);
+          onOpenCell();
         },
-        () => {
-          onFinish();
-        }
+        onFinish
       ),
     [holesCount, size]
   );
@@ -25,5 +25,5 @@ export const useGameBoard = (
     board.openedCellIndexes.length
   );
 
-  return { board, openedIndexesCount };
+  return [board, openedIndexesCount];
 };
