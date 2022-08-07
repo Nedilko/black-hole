@@ -25,7 +25,6 @@ export const useGameBoard = (
 
   useEffect(() => {
     setOpenedCellCount(board.openedCellCount);
-    console.log('openedCellCount', openedCellCount);
   }, [board.openedCellCount]);
 
   return [board, openedCellCount];
