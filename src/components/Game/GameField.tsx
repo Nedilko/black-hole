@@ -2,19 +2,22 @@ import { useMemo, useState } from 'react';
 import { GameBoard } from '../../game/field';
 import Cell from './Cell';
 import type { IBoardSize, IBoardWithCells } from '../../game/field';
+import { useGameBoard } from '../../hooks/useGameBoard';
 
 const GameField = ({ width, height }: IBoardSize) => {
-  const boardCellOpenHandler = (index: number) => {
-    console.log(`Cell ${index} was opened`);
-    setOpenedIndexes((old) => [...old, index]);
-  };
+  // const boardCellOpenHandler = (index: number) => {
+  //   console.log(`Cell ${index} was opened`);
+  //   setOpenedIndexes((old) => [...old, index]);
+  // };
 
-  const board: IBoardWithCells = useMemo(
-    () => GameBoard.create({ width, height }, 7, boardCellOpenHandler),
-    [width, height]
-  );
+  // const board: IBoardWithCells = useMemo(
+  //   () => GameBoard.create({ width, height }, 7, boardCellOpenHandler),
+  //   [width, height]
+  // );
 
-  const [openedIndexes, setOpenedIndexes] = useState<number[]>([]);
+  // const [openedIndexes, setOpenedIndexes] = useState<number[]>([]);
+
+  const { board, openedIndexesCount } = useGameBoard({ width, height }, 7);
   const handleOpenAllCells = () => {
     board.handleOpenAllHoles();
   };
@@ -24,7 +27,7 @@ const GameField = ({ width, height }: IBoardSize) => {
       <div className="cursor-pointer" onClick={handleOpenAllCells}>
         open all holes
       </div>
-      <div className="flex">{width * height - openedIndexes.length}</div>
+      <div className="flex">{width * height - openedIndexesCount}</div>
       <div className="flex flex-col">
         <div
           className={`grid gap-2 grid-cols-${width} grid-rows-${height} p-4`}
