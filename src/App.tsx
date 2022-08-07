@@ -54,7 +54,7 @@ function App() {
   return (
     <div className="font-extralight bg-gradient-to-b from-[#06070d] via-[#061234] to-[#0e103e]">
       <div className="flex flex-col min-h-screen p-4 overflow-x-scroll">
-        <header className="flex justify-center border-b-2 pb-4 border-gray-400/80">
+        <header className="flex justify-center border-b-2 pb-4 border-gray-400/50">
           <Header cellsCount={10} openedCellsCount={10} timer={'00:12'} />
         </header>
         <main className="flex flex-col mt-24 justify-center items-center">
