@@ -5,6 +5,7 @@ import GameControls from './components/UI/GameControls';
 import Header from './components/UI/Header';
 import SettingsDialog from './components/UI/SettingsDialog';
 import { IBoardSize } from './game/field';
+import { getDefaultSettings } from './state/defaults';
 
 export interface ISettings {
   size: IBoardSize;
@@ -14,10 +15,7 @@ export interface ISettings {
 function App() {
   const [isStarted, setIsStarted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
-  const [settings, setSettings] = useState<ISettings>({
-    size: { width: 8, height: 8 },
-    holesCount: 10,
-  });
+  const [settings, setSettings] = useState<ISettings>(getDefaultSettings());
 
   const handleStartGame = (settings: ISettings) => {
     setSettings(settings);
@@ -33,20 +31,14 @@ function App() {
   const handleTryAgain = () => {
     console.log('try again');
     setIsFinished(false);
-    setSettings({
-      size: Object.create({ width: 8, height: 8 }),
-      holesCount: 10,
-    });
+    setSettings(getDefaultSettings());
   };
 
   const handleBackToMenu = () => {
     console.log('back to menu');
     setIsStarted(false);
     setIsFinished(false);
-    setSettings({
-      size: Object.create({ width: 8, height: 8 }),
-      holesCount: 10,
-    });
+    setSettings(getDefaultSettings());
   };
 
   console.log('app rendered');
