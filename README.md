@@ -315,3 +315,5 @@ I added a simple menu for defining game setup such as board size (width and heig
 As was mentioned in the requirements, I didn't implement ***flag*** functionality.
 
 As base for project I used Create React App, so that I could start imeplemnting as soon as possible.
+
+UI Design was made by myself and based on my own preferences.
