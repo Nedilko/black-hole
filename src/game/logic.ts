@@ -1,14 +1,13 @@
 import type { IBoardSize } from './field';
 import type { ICellPosition } from './cell';
-import { getSize } from './helpers';
 
 export const getHolesIndexes = (
-  size: IBoardSize,
+  { width, height }: IBoardSize,
   holesCount: number
 ): number[] => {
   const indexesArray: number[] = [];
   while (indexesArray.length < holesCount) {
-    const randomIndex = Math.floor(Math.random() * getSize(size));
+    const randomIndex = Math.floor(Math.random() * (width * height));
     if (!indexesArray.includes(randomIndex)) {
       indexesArray.push(randomIndex);
     }
@@ -17,18 +16,16 @@ export const getHolesIndexes = (
 };
 
 export const getCellSurroundingIndexes = (
-  position: ICellPosition,
-  size: IBoardSize
+  { x, y }: ICellPosition,
+  { width, height }: IBoardSize
 ) => {
   const indexesArray: number[] = [];
-  const { x, y } = position;
-  const { width, height } = size;
 
   const xMin = x - 1;
   const xMax = x + 1;
   const yMin = y - 1;
   const yMax = y + 1;
-  
+
   for (let i = xMin; i <= xMax; i++) {
     for (let j = yMin; j <= yMax; j++) {
       if (

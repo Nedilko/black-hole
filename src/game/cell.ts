@@ -10,6 +10,7 @@ interface ICell {
 }
 
 export interface IGameCell extends ICell {
+  index: number;
   isOpen: boolean;
   isHole: boolean;
   holesNearCount: number;

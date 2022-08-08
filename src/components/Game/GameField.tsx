@@ -1,7 +1,6 @@
 import Cell from './Cell';
 import type { IBoardSize } from '../../game/field';
 import { useGameBoard } from '../../hooks/useGameBoard';
-import { getSize } from '../../game/helpers';
 
 type PropsType = {
   size: IBoardSize;
@@ -31,7 +30,7 @@ const GameField = ({ size, holesCount, onFinish, onOpenCell }: PropsType) => {
         <div
           className={`grid gap-2 grid-cols-${width} grid-rows-${height} p-4`}
         >
-          {Array.from({ length: getSize(size) }, (_, i) => {
+          {Array.from({ length: width * height }, (_, i) => {
             const { isHole, holesNearCount, isOpen, handleOpen } =
               board.cells[i];
             return (

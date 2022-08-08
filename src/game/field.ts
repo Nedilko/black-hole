@@ -1,4 +1,3 @@
-import { getSize, getPosition, getIndex } from './helpers';
 import { getHolesIndexes, getCellSurroundingIndexes } from './logic';
 import type { IGameCell } from './cell';
 import { GameCell } from './cell';
@@ -6,18 +5,24 @@ import { GameCell } from './cell';
 const getGameCellsArray = (board: IBoardWithCells): IGameCell[] => {
   const { size } = board;
   const holesIndexes = board.holesIndexes;
+  const isHole = (index: number) => holesIndexes.includes(index);
 
-  return Array.from({ length: getSize(size) }, (_, i) => {
-    const position = getPosition(i, size);
-    const isHole = (index: number) => holesIndexes.includes(index);
-
-    return GameCell.create(
-      position,
-      isHole(i),
-      getCellSurroundingIndexes(position, size).filter(isHole).length,
-      board
-    );
-  });
+  const { width, height } = size;
+  const result: IGameCell[] = [];
+  for (let i = 0, index = 0; i < width; i++) {
+    for (let j = 0; j < height; j++, index++) {
+      const position = { x: j, y: i };
+      result.push(
+        GameCell.create(
+          position,
+          isHole(index),
+          getCellSurroundingIndexes(position, size).filter(isHole).length,
+          board
+        )
+      );
+    }
+  }
+  return result;
 };
 
 export interface IBoardSize {
@@ -122,10 +127,9 @@ export class GameBoard implements IBoard {
   public handleOpenAllHoles() {
     const cellsWithHoles = this.cells.filter((cell) => cell.isHole);
     cellsWithHoles.forEach((cell) => {
-      const index = getIndex(cell.position, this.size);
-      this._openedCellIndexes.push(index);
+      this._openedCellIndexes.push(cell.index);
       cell.isOpen = true;
-      this._openCellCallback(index);
+      this._openCellCallback(cell.index);
     });
   }
 

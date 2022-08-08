@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { ISettings } from '../../App';
-import { getSize } from '../../game/helpers';
 import NumberInput from './NumberInput';
 
 type PropsType = {
@@ -48,7 +47,7 @@ const SettingsDialog = ({ onStartGame, settings }: PropsType) => {
           <NumberInput
             label="Holes count:"
             min={1}
-            max={getSize({ width, height }) - 2}
+            max={width * height - 2}
             value={holesCount}
             handleChange={setHolesCount}
           />
