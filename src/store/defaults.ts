@@ -1,11 +1,6 @@
-import { IBoardSize } from '../game/board';
+import { ISettings } from './SettingsStore';
 
-interface IGameSettings {
-  size: IBoardSize;
-  holesCount: number;
-}
-
-const easySettings: IGameSettings = {
+const easySettings: ISettings = {
   size: {
     width: 8,
     height: 8,
@@ -13,7 +8,7 @@ const easySettings: IGameSettings = {
   holesCount: 10,
 };
 
-const mediumSettings: IGameSettings = {
+const mediumSettings: ISettings = {
   size: {
     width: 15,
     height: 15,
@@ -21,7 +16,7 @@ const mediumSettings: IGameSettings = {
   holesCount: 20,
 };
 
-const hardSettings: IGameSettings = {
+const hardSettings: ISettings = {
   size: {
     width: 20,
     height: 20,
@@ -29,13 +24,13 @@ const hardSettings: IGameSettings = {
   holesCount: 30,
 };
 
-export const getDefaultSettings = (): IGameSettings =>
+export const getDefaultSettings = (): ISettings =>
   Object.create({
     size: Object.create(easySettings.size),
     holesCount: easySettings.holesCount,
   });
 
-const getSettings = (settings: IGameSettings): IGameSettings =>
+const getSettings = (settings: ISettings): ISettings =>
   Object.create({
     size: Object.create(settings.size),
     holesCount: settings.holesCount,

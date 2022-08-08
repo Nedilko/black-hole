@@ -1,22 +1,25 @@
 import Cell from './Cell';
-import type { IBoardSize } from '../../game/board';
 import { useGameBoard } from '../../hooks/useGameBoard';
+import { useSettingsStore } from '../../hooks/useSettingsStore';
+import { useGameStore } from '../../hooks/useGameStore';
+import { GameActions } from '../../store/GameStore';
 
-type PropsType = {
-  size: IBoardSize;
-  holesCount: number;
-  onFinish: () => void;
-  onOpenCell: () => void;
-};
-
-const GameField = ({ size, holesCount, onFinish, onOpenCell }: PropsType) => {
+const GameField = () => {
+  const [{ size, holesCount }, settingsDispatch] = useSettingsStore();
+  const [_, gameDispatch] = useGameStore();
   const handleOpenCell = () => {
-    onOpenCell();
+    console.log('cell opened');
   };
+
+  const onFinishGame = () => {
+    console.log('GameField: onFinishGame');
+    gameDispatch(GameActions.showGameControls());
+  };
+
   const [board, remainingCellsCount] = useGameBoard(
     size,
     holesCount,
-    onFinish,
+    onFinishGame,
     handleOpenCell
   );
   const { width, height } = size;
@@ -47,6 +50,6 @@ const GameField = ({ size, holesCount, onFinish, onOpenCell }: PropsType) => {
       </div>
     </div>
   );
-};;
+};
 
 export default GameField;

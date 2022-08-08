@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ISettings } from '../../App';
+import { ISettings } from '../../store/SettingsStore';
 import NumberInput from './NumberInput';
 
 type PropsType = {

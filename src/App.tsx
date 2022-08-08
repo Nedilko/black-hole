@@ -1,44 +1,33 @@
-import { useState } from 'react';
 import GameField from './components/Game/GameField';
 import Footer from './components/UI/Footer';
 import GameControls from './components/UI/GameControls';
 import Header from './components/UI/Header';
 import SettingsDialog from './components/UI/SettingsDialog';
-import { IBoardSize } from './game/board';
-import { getDefaultSettings } from './state/defaults';
-
-export interface ISettings {
-  size: IBoardSize;
-  holesCount: number;
-}
+import { useGameStore } from './hooks/useGameStore';
+import { useSettingsStore } from './hooks/useSettingsStore';
+import { ISettings, SettingsActions } from './store/SettingsStore';
+import { GameActions } from './store/GameStore';
 
 function App() {
-  const [isStarted, setIsStarted] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
-  const [settings, setSettings] = useState<ISettings>(getDefaultSettings());
+  const [{ showGameField, showGameControls }, gameDispatch] = useGameStore();
+  const [settings, settingsDispatch] = useSettingsStore();
 
   const handleStartGame = (settings: ISettings) => {
-    setSettings(settings);
+    settingsDispatch(SettingsActions.setSettings(settings));
     console.log('game started with settings: ', settings);
-    setIsStarted(true);
-  };
-
-  const handleFinishGame = () => {
-    console.log('game finished!');
-    setIsFinished(true);
+    gameDispatch(GameActions.showGameField());
   };
 
   const handleTryAgain = () => {
     console.log('try again');
-    setIsFinished(false);
-    setSettings(getDefaultSettings());
+    gameDispatch(GameActions.hideGameControls());
+    settingsDispatch(SettingsActions.setSettings(settings));
   };
 
   const handleBackToMenu = () => {
     console.log('back to menu');
-    setIsStarted(false);
-    setIsFinished(false);
-    setSettings(getDefaultSettings());
+    gameDispatch(GameActions.hideGameField());
+    gameDispatch(GameActions.hideGameControls());
   };
 
   console.log('app rendered');
@@ -50,23 +39,14 @@ function App() {
           <Header cellsCount={10} openedCellsCount={10} timer={'00:12'} />
         </header>
         <main className="flex flex-col mt-24 justify-center items-center">
-          {!isStarted && (
+          {!showGameField && (
             <SettingsDialog settings={settings} onStartGame={handleStartGame} />
           )}
-          {isStarted && (
-            <GameField
-              size={settings.size}
-              holesCount={settings.holesCount}
-              onFinish={handleFinishGame}
-              onOpenCell={() => {
-                console.log('cell opened');
-              }}
-            />
-          )}
+          {showGameField && <GameField />}
         </main>
         <footer className="flex flex-col mt-auto justify-center items-center">
           <div className="flex mb-4">
-            {isFinished && (
+            {showGameControls && (
               <GameControls
                 onTryAgain={handleTryAgain}
                 onMainMenu={handleBackToMenu}
