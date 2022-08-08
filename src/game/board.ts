@@ -42,7 +42,7 @@ export interface IBoardWithCells extends IBoard {
   openedCellIndexes: number[];
   isFinished: boolean;
   handleFinish: () => void;
-  handleOpenSurroundingCells: (index: number) => void;
+  handleOpenSurroundingCells: (cell: IGameCell) => void;
   handleOpenAllHoles: () => void;
 }
 
@@ -105,15 +105,12 @@ export class GameBoard implements IBoardWithCells {
     return this.cells.length - this.holesCount - this.openedCellCount;
   }
 
-  public handleOpenSurroundingCells(index: number) {
-    this._openedCellIndexes.push(index);
+  public handleOpenSurroundingCells(cell: IGameCell) {
+    this._openedCellIndexes.push(cell.index);
 
-    const surrounding = getCellSurroundingIndexes(
-      this.cells[index].position,
-      this.size
-    );
+    const surrounding = getCellSurroundingIndexes(cell.position, this.size);
 
-    if (this.cells[index].holesNearCount === 0) {
+    if (cell.holesNearCount === 0) {
       surrounding.forEach((i) => {
         if (!this.openedCellIndexes.includes(i)) {
           setTimeout(() => this.cells[i].handleOpen(), 40);
@@ -121,7 +118,7 @@ export class GameBoard implements IBoardWithCells {
       });
     }
 
-    this._openCellCallback(index);
+    this._openCellCallback(cell.index);
   }
 
   public handleOpenAllHoles() {

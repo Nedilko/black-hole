@@ -90,7 +90,7 @@ export class GameCell implements IGameCell {
 
     this.isOpen = true;
 
-    this.board.handleOpenSurroundingCells(this.index);
+    this.board.handleOpenSurroundingCells(this);
   }
 
   public static create(
