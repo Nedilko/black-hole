@@ -19,6 +19,9 @@ module.exports = {
       gridTemplateColumns: {
         ...generateGridColumns(50),
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
     },
   },
   plugins: [],

@@ -1,110 +1,61 @@
-import { useMemo } from 'react';
 import Cell from './Cell';
+import { useGameBoard } from '../../hooks/useGameBoard';
+import { useSettingsStore } from '../../hooks/useSettingsStore';
+import { useGameStore } from '../../hooks/useGameStore';
+import { GameActions } from '../../store/GameStore';
+import { useEffect } from 'react';
 
-type GameFieldProps = {
-  width: number;
-  height: number;
-};
-
-const fillIndexes = (size: number, minesCount: number): number[] => {
-  const randIndexes: number[] = [];
-  while (randIndexes.length < minesCount) {
-    const index = Math.floor(Math.random() * size);
-    if (!randIndexes.includes(index)) {
-      randIndexes.push(index);
-    }
-  }
-  return randIndexes;
-};
-
-type GameCell = {
-  isMine: boolean;
-  position: {
-    x: number;
-    y: number;
+const GameField = () => {
+  const [{ size, holesCount }, settingsDispatch] = useSettingsStore();
+  const [_, gameDispatch] = useGameStore();
+  const handleOpenCell = () => {
+    // console.log('cell opened');
   };
-  minesNearCount: number;
-};
 
-const gameFieldArray = (
-  width: number,
-  height: number,
-  minesCount: number
-): GameCell[] => {
-  const size = width * height;
-  const minesIndexes = fillIndexes(size, minesCount);
+  const onFinishGame = () => {
+    gameDispatch(GameActions.showGameControls());
+  };
 
-  const gameField: GameCell[] = [];
-  for (let i = 0; i < width; i++) {
-    for (let j = 0; j < height; j++) {
-      gameField.push({
-        isMine: minesIndexes.includes(i * width + j),
-        position: {
-          x: i,
-          y: j,
-        },
-        minesNearCount: 0,
-      });
-    }
-  }
-  return gameField;
-};
-
-const fillNumbers = (gameField: GameCell[]) => {
-  gameField.forEach((cell) => {
-    if (!cell.isMine) {
-      const minesNearCount = gameField
-        .filter((c) => {
-          return (
-            (c.position.x === cell.position.x &&
-              c.position.y === cell.position.y - 1) ||
-            (c.position.x === cell.position.x &&
-              c.position.y === cell.position.y + 1) ||
-            (c.position.x === cell.position.x - 1 &&
-              c.position.y === cell.position.y) ||
-            (c.position.x === cell.position.x + 1 &&
-              c.position.y === cell.position.y) ||
-            (c.position.x === cell.position.x - 1 &&
-              c.position.y === cell.position.y - 1) ||
-            (c.position.x === cell.position.x + 1 &&
-              c.position.y === cell.position.y - 1) ||
-            (c.position.x === cell.position.x - 1 &&
-              c.position.y === cell.position.y + 1) ||
-            (c.position.x === cell.position.x + 1 &&
-              c.position.y === cell.position.y + 1)
-          );
-        })
-        .filter((c) => c.isMine).length;
-      cell.minesNearCount = minesNearCount;
-    }
-  });
-
-  return gameField;
-};
-
-const GameField = ({ width, height }: GameFieldProps) => {
-  const count = width * height;
-  const field = useMemo(
-    () => fillNumbers(gameFieldArray(width, height, 20)),
-    [width, height]
+  const [board, remainingCellsCount] = useGameBoard(
+    size,
+    holesCount,
+    onFinishGame,
+    handleOpenCell
   );
+  const { width, height } = size;
+  useEffect(() => {
+    gameDispatch(GameActions.updateRemainingCellsCount(remainingCellsCount));
+  }, [remainingCellsCount, gameDispatch]);
+
+  useEffect(() => {
+    gameDispatch(
+      GameActions.updateTotalCellsCount(size.width * size.height - holesCount)
+    );
+  }, [gameDispatch, size.height, size.width, holesCount]);
 
   return (
     <div className="flex flex-col">
-      <div className={`grid gap-2 grid-cols-${width} grid-rows-${height}`}>
-        {Array.from({ length: count }, (_, i) => {
-          return (
-            <Cell
-              key={i}
-              index={i}
-              isMine={field[i].isMine}
-              minesNearCount={field[i].minesNearCount}
-            />
-          );
-        })}
+      <div className="flex flex-col">
+        <div
+          className={`grid gap-2 grid-cols-${width} grid-rows-${height} p-4`}
+        >
+          {Array.from({ length: width * height }, (_, i) => {
+            const { isHole, holesNearCount, isOpen, handleOpen } =
+              board.cells[i];
+            return (
+              <Cell
+                key={i}
+                isOpen={isOpen}
+                isHole={isHole}
+                holesNearCount={holesNearCount}
+                handleOpen={handleOpen}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
-};;
+};
 
 export default GameField;

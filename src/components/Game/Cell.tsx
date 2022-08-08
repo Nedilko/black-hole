@@ -1,44 +1,42 @@
 import React from 'react';
-import { useCallback, useState } from 'react';
 
 type PropsType = {
-  index: number;
-  // onClick: (index: number) => void;
-  isMine: boolean;
-  minesNearCount: number;
+  isOpen: boolean;
+  isHole: boolean;
+  holesNearCount: number;
+  handleOpen: () => void;
 };
 
-const Cell = ({ index, isMine, minesNearCount }: PropsType) => {
-  const [isMarkedMine, setIsMarkedMine] = useState(isMine);
-  const [isOpen, setIsOpen] = useState(true);
+const Cell = ({ handleOpen, holesNearCount, isHole, isOpen }: PropsType) => {
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    if (e.type === 'click') {
+      handleOpen();
+    } else if (e.type === 'contextmenu') {
+    }
+  };
 
-  const handleClick = useCallback(
-    (e: any) => {
-      e.preventDefault();
-      console.log(`Cell ${index} clicked`);
-      if (e.type === 'click') {
-        console.log('Left click');
-        setIsOpen(true);
-        setIsMarkedMine(false);
-      } else if (e.type === 'contextmenu') {
-        console.log('Right click');
-        setIsMarkedMine(true);
-        setIsOpen(false);
-      }
-    },
-    [index]
-  );
+  const isZeroHolesNear = holesNearCount === 0;
+
+  const cellValue = isHole ? '' : isZeroHolesNear ? '' : holesNearCount;
+
+  let value = isOpen ? cellValue : '';
+
+  const cellClassName = isOpen
+    ? isHole
+      ? 'rounded-full border-2 border-red-800 bg-black cursor-default'
+      : isZeroHolesNear
+      ? 'border-2 rounded-md border-gray-700 bg-gray-700/10 cursor-default'
+      : 'rounded-full border-2 border-gray-300 cursor-default'
+    : 'rounded-md border-2 border-gray-400 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10';
+
   return (
     <button
       onClick={handleClick}
       onContextMenu={handleClick}
-      className={`rounded-md w-12 h-12 ${
-        isMarkedMine
-          ? 'bg-red-200 hover:bg-red-300'
-          : 'bg-gray-200 hover:bg-gray-300'
-      }`}
+      className={`text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 ${cellClassName}`}
     >
-      {isMarkedMine ? '💥' : minesNearCount}
+      {value}
     </button>
   );
 };
