@@ -2,7 +2,7 @@
 
 This project due to Take Home Interview. \
 To start application in development mode please run `npm start`. \
-Application available at [http://localhost:3000](http://localhost:3000)
+Application available at [https://black-hole-two.vercel.app/](https://black-hole-two.vercel.app/)
 
 ---
 ## Part 1: (main data structure)
