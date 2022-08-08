@@ -1,58 +1,11 @@
-import { getSize } from './helpers';
+import { getSize, getPosition, getIndex } from './helpers';
+import { getHolesIndexes, getCellSurroundingIndexes } from './logic';
+import type { IGameCell } from './cell';
+import { GameCell } from './cell';
 
-export const getPosition = (index: number, size: IBoardSize): ICellPosition => {
-  const x = index % size.width;
-  const y = Math.floor(index / size.width);
-  return { x, y };
-};
-
-export const getIndex = (position: ICellPosition, size: IBoardSize): number => {
-  return position.y * size.width + position.x;
-};
-
-export const getHolesIndexes = (
-  size: IBoardSize,
-  holesCount: number
-): number[] => {
-  const indexesArray: number[] = [];
-  while (indexesArray.length < holesCount) {
-    const randomIndex = Math.floor(Math.random() * getSize(size));
-    if (!indexesArray.includes(randomIndex)) {
-      indexesArray.push(randomIndex);
-    }
-  }
-  return indexesArray;
-};
-
-export const getSurroundingIndexes = (
-  position: ICellPosition,
-  size: IBoardSize
-) => {
-  const indexesArray: number[] = [];
-  const { x, y } = position;
-  const xMin = x - 1;
-  const xMax = x + 1;
-  const yMin = y - 1;
-  const yMax = y + 1;
-  for (let i = xMin; i <= xMax; i++) {
-    for (let j = yMin; j <= yMax; j++) {
-      if (
-        i >= 0 &&
-        i < size.width &&
-        j >= 0 &&
-        j < size.height &&
-        !(i === x && j === y)
-      ) {
-        indexesArray.push(i + j * size.width);
-      }
-    }
-  }
-  return indexesArray;
-};
-
-export const getGameCellsData = (board: IBoardWithCells): IGameCell[] => {
-  const { size, holesCount } = board;
-  const holesIndexes = getHolesIndexes(size, holesCount);
+const getGameCellsArray = (board: IBoardWithCells): IGameCell[] => {
+  const { size } = board;
+  const holesIndexes = board.holesIndexes;
 
   return Array.from({ length: getSize(size) }, (_, i) => {
     const position = getPosition(i, size);
@@ -61,7 +14,7 @@ export const getGameCellsData = (board: IBoardWithCells): IGameCell[] => {
     return GameCell.create(
       position,
       isHole(i),
-      getSurroundingIndexes(position, size).filter(isHole).length,
+      getCellSurroundingIndexes(position, size).filter(isHole).length,
       board
     );
   });
@@ -108,7 +61,7 @@ export class GameBoard implements IBoard {
     this._size = size;
     this._holesCount = holesCount;
     this._holesIndexes = holesIndexes;
-    this._cells = getGameCellsData(this);
+    this._cells = getGameCellsArray(this);
     this._openCellCallback = openCellCallback;
     this._finishCallback = finishCallback;
     this._openedCellIndexes = [];
@@ -150,7 +103,7 @@ export class GameBoard implements IBoard {
   public handleOpenSurroundingCells(index: number) {
     this._openedCellIndexes.push(index);
 
-    const surrounding = getSurroundingIndexes(
+    const surrounding = getCellSurroundingIndexes(
       this.cells[index].position,
       this.size
     );
@@ -200,107 +153,5 @@ export class GameBoard implements IBoard {
       openCellCallback,
       finishCallback
     );
-  }
-}
-
-interface ICellPosition {
-  x: number;
-  y: number;
-}
-
-interface ICell {
-  position: ICellPosition;
-}
-
-export interface IGameCell extends ICell {
-  isOpen: boolean;
-  isHole: boolean;
-  holesNearCount: number;
-  handleOpen: () => void;
-}
-
-export class GameCell implements IGameCell {
-  private readonly _position: ICellPosition;
-  private _isOpen: boolean;
-  private readonly _isHole: boolean;
-  private readonly _holesNearCount: number;
-  private readonly _board: IBoardWithCells;
-
-  constructor(
-    position: ICellPosition,
-    isOpen: boolean,
-    isHole: boolean,
-    holesNearCount: number,
-    board: IBoardWithCells
-  ) {
-    this._position = position;
-    this._isOpen = isOpen;
-    this._isHole = isHole;
-    this._holesNearCount = holesNearCount;
-    this._board = board;
-    this.handleOpen = this.handleOpen.bind(this);
-  }
-
-  public get position(): ICellPosition {
-    return this._position;
-  }
-
-  public get isHole(): boolean {
-    return this._isHole;
-  }
-
-  public get holesNearCount(): number {
-    return this._holesNearCount;
-  }
-
-  public get isOpen(): boolean {
-    return this._isOpen;
-  }
-
-  private set isOpen(isOpen: boolean) {
-    this._isOpen = isOpen;
-  }
-
-  private get board(): IBoardWithCells {
-    return this._board;
-  }
-
-  public get index(): number {
-    return this.position.x + this.board.size.width * this.position.y;
-  }
-
-  public handleOpen() {
-    if (this.board.isFinished) {
-      return;
-    }
-
-    if (this.isHole) {
-      this.board.handleFinish();
-      this.board.handleOpenAllHoles();
-      return;
-    }
-
-    if (this.isOpen) {
-      return;
-    }
-
-    if (this.board.remainingCellsCount === 1) {
-      this.isOpen = true;
-      this.board.handleFinish();
-      return;
-    }
-
-    this.isOpen = true;
-
-    this.board.handleOpenSurroundingCells(this.index);
-  }
-
-  public static create(
-    position: ICellPosition,
-    isHole: boolean,
-    holesNearCount: number,
-    board: IBoardWithCells
-  ): IGameCell {
-    return new GameCell(position, false, isHole, holesNearCount, board);
   }
 }
