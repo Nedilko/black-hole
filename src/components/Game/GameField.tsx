@@ -14,7 +14,7 @@ const GameField = ({ size, holesCount, onFinish, onOpenCell }: PropsType) => {
   const handleOpenCell = () => {
     onOpenCell();
   };
-  const [board, openedCellCount] = useGameBoard(
+  const [board, remainingCellsCount] = useGameBoard(
     size,
     holesCount,
     onFinish,
@@ -25,7 +25,7 @@ const GameField = ({ size, holesCount, onFinish, onOpenCell }: PropsType) => {
   return (
     <div className="flex flex-col">
       <div className="flex text-white hover:underline">
-        {getSize(size) - holesCount - openedCellCount}
+        {remainingCellsCount}
       </div>
       <div className="flex flex-col">
         <div

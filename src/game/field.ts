@@ -77,6 +77,7 @@ export interface IBoard {
 }
 
 export interface IBoardWithCells extends IBoard {
+  remainingCellsCount: number;
   holesCount: number;
   holesIndexes: number[];
   cells: IGameCell[];
@@ -85,7 +86,6 @@ export interface IBoardWithCells extends IBoard {
   handleFinish: () => void;
   handleOpenSurroundingCells: (index: number) => void;
   handleOpenAllHoles: () => void;
-  openedCellCount: number;
 }
 
 export class GameBoard implements IBoard {
@@ -139,8 +139,12 @@ export class GameBoard implements IBoard {
     this._isFinished = value;
   }
 
-  public get openedCellCount() {
+  private get openedCellCount() {
     return this.cells.filter((cell) => !cell.isHole && cell.isOpen).length;
+  }
+
+  public get remainingCellsCount() {
+    return this.cells.length - this.holesCount - this.openedCellCount;
   }
 
   public handleOpenSurroundingCells(index: number) {
@@ -275,9 +279,17 @@ export class GameCell implements IGameCell {
       this.board.handleOpenAllHoles();
       return;
     }
+
     if (this.isOpen) {
       return;
     }
+
+    if (this.board.remainingCellsCount === 1) {
+      this.isOpen = true;
+      this.board.handleFinish();
+      return;
+    }
+
     this.isOpen = true;
 
     this.board.handleOpenSurroundingCells(this.index);

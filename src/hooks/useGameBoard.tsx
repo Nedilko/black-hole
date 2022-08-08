@@ -13,7 +13,7 @@ export const useGameBoard = (
         size,
         holesCount,
         () => {
-          setOpenedCellCount(board.openedCellCount);
+          setOpenedCellCount(board.remainingCellsCount);
           onOpenCell();
         },
         onFinish
@@ -24,8 +24,8 @@ export const useGameBoard = (
   const [openedCellCount, setOpenedCellCount] = useState(0);
 
   useEffect(() => {
-    setOpenedCellCount(board.openedCellCount);
-  }, [board.openedCellCount]);
+    setOpenedCellCount(board.remainingCellsCount);
+  }, [board.remainingCellsCount]);
 
   return [board, openedCellCount];
 };
