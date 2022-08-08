@@ -1,27 +1,50 @@
 import { useState } from 'react';
-import { ISettings } from '../../store/SettingsStore';
+import { useGameStore } from '../../hooks/useGameStore';
+import { useSettingsStore } from '../../hooks/useSettingsStore';
+import { GameActions } from '../../store/GameStore';
+import { SettingsActions } from '../../store/SettingsStore';
 import NumberInput from './NumberInput';
 
-type PropsType = {
-  onStartGame: (settings: ISettings) => void;
-  settings: ISettings;
-};
-
-const SettingsDialog = ({ onStartGame, settings }: PropsType) => {
+const SettingsDialog = () => {
   const handleApply = () => {
-    console.log('apply');
-    onStartGame({
-      size: {
-        width,
-        height,
-      },
-      holesCount,
-    });
+    settingsDispatch(
+      SettingsActions.setSettings({
+        size: {
+          width,
+          height,
+        },
+        holesCount: holes,
+      })
+    );
+
+    gameDispatch(GameActions.showGameField());
+    gameDispatch(GameActions.showGameField());
   };
 
-  const [width, setWidth] = useState<number>(settings.size.width);
-  const [height, setHeight] = useState<number>(settings.size.height);
-  const [holesCount, setHolesCount] = useState<number>(settings.holesCount);
+  const [{ size, holesCount }, settingsDispatch] = useSettingsStore();
+  const [_, gameDispatch] = useGameStore();
+
+  const [width, setWidth] = useState<number>(size.width);
+  const [height, setHeight] = useState<number>(size.height);
+  const [holes, setHolesCount] = useState<number>(holesCount);
+
+  const handleChangeWidth = (value: number) => {
+    if (value > 4) {
+      setWidth(value);
+    }
+  };
+
+  const handleChangeHeight = (value: number) => {
+    if (value > 4) {
+      setHeight(value);
+    }
+  };
+
+  const handleChangeHolesCount = (value: number) => {
+    if (value < width * height - 1 && value > 0) {
+      setHolesCount(value);
+    }
+  };
 
   return (
     <div className="flex flex-col p-4">
@@ -33,14 +56,14 @@ const SettingsDialog = ({ onStartGame, settings }: PropsType) => {
             value={width}
             min={2}
             max={20}
-            handleChange={setWidth}
+            handleChange={handleChangeWidth}
           />
           <NumberInput
             label="Height:"
             min={2}
             max={20}
             value={height}
-            handleChange={setHeight}
+            handleChange={handleChangeHeight}
           />
         </div>
         <div className="flex mt-4">
@@ -48,8 +71,8 @@ const SettingsDialog = ({ onStartGame, settings }: PropsType) => {
             label="Holes count:"
             min={1}
             max={width * height - 2}
-            value={holesCount}
-            handleChange={setHolesCount}
+            value={holes}
+            handleChange={handleChangeHolesCount}
           />
         </div>
       </div>

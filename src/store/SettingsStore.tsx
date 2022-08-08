@@ -1,15 +1,22 @@
 import React, { ReactNode, useReducer } from 'react';
 import { IBoardSize } from '../game/board';
-import { getDefaultSettings } from './defaults';
+import { getDefaultSettings, getSettings } from './defaults';
 
 export interface ISettings {
   size: IBoardSize;
   holesCount: number;
 }
 
+const defaultSettings: ISettings = getDefaultSettings();
+
+const SET_SETTINGS = 'setSettings';
+const SET_DEFAULT_SETTINGS = 'setDefaultSettings';
+const SET_LAST_SETTINGS = 'setLastSettings';
+
 type Action =
-  | { type: 'changeSettings'; payload: ISettings }
-  | { type: 'setDefaultSettings' };
+  | { type: 'setSettings'; payload: ISettings }
+  | { type: 'setDefaultSettings' }
+  | { type: 'setLastSettings' };
 export type Dispatch = (action: Action) => void;
 
 const SettingsDataContext = React.createContext<ISettings | undefined>(
@@ -19,26 +26,27 @@ const SettingsDispatchContext = React.createContext<Dispatch | undefined>(
   undefined
 );
 
-const CHANGE_SETTINGS = 'changeSettings';
-const SET_DEFAULT_SETTINGS = 'setDefaultSettings';
-
 export const SettingsActions: {
   [key: string]: (payload: ISettings) => Action;
 } = {
-  changeSettings: (payload: ISettings) => ({
-    type: CHANGE_SETTINGS,
+  setSettings: (payload: ISettings) => ({
+    type: SET_SETTINGS,
     payload,
   }),
-  setSettings: () => ({ type: SET_DEFAULT_SETTINGS }),
+  setDefaultSettings: () => ({ type: SET_DEFAULT_SETTINGS }),
+  setLastSettings: () => ({ type: SET_LAST_SETTINGS }),
 };
 
 const settingsReducer = (state: ISettings, action: Action) => {
   switch (action.type) {
-    case CHANGE_SETTINGS: {
-      return { ...state, ...action.payload };
+    case SET_SETTINGS: {
+      return getSettings(action.payload);
     }
     case SET_DEFAULT_SETTINGS: {
       return getDefaultSettings();
+    }
+    case SET_LAST_SETTINGS: {
+      return getSettings(state);
     }
   }
 };
@@ -48,7 +56,7 @@ type ProviderProps = {
 };
 
 const SettingsContextProvider = ({ children }: ProviderProps) => {
-  const [state, dispatch] = useReducer(settingsReducer, getDefaultSettings());
+  const [state, dispatch] = useReducer(settingsReducer, defaultSettings);
   return (
     <SettingsDataContext.Provider value={state}>
       <SettingsDispatchContext.Provider value={dispatch}>

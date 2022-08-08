@@ -9,8 +9,8 @@ const getGameCellsArray = (board: IBoardWithCells): IGameCell[] => {
 
   const { width, height } = size;
   const result: IGameCell[] = [];
-  for (let i = 0, index = 0; i < width; i++) {
-    for (let j = 0; j < height; j++, index++) {
+  for (let i = 0, index = 0; i < height; i++) {
+    for (let j = 0; j < width; j++, index++) {
       const position = { x: j, y: i };
       result.push(
         GameCell.create(
@@ -133,7 +133,6 @@ export class GameBoard implements IBoardWithCells {
   public handleFinish() {
     this.isFinished = true;
     this._finishCallback();
-    console.log('GameBoard: finish');
   }
 
   public get openedCellIndexes() {

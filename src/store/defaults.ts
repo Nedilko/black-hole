@@ -30,7 +30,7 @@ export const getDefaultSettings = (): ISettings =>
     holesCount: easySettings.holesCount,
   });
 
-const getSettings = (settings: ISettings): ISettings =>
+export const getSettings = (settings: ISettings): ISettings =>
   Object.create({
     size: Object.create(settings.size),
     holesCount: settings.holesCount,

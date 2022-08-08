@@ -5,6 +5,8 @@ export interface IGameData {
   showGameControls: boolean;
   remainingCellsCount: number;
   totalCellsCount: number;
+  time: string;
+  showTime: boolean;
 }
 
 const gameInitialSettings: IGameData = {
@@ -12,6 +14,8 @@ const gameInitialSettings: IGameData = {
   showGameControls: false,
   remainingCellsCount: 0,
   totalCellsCount: 0,
+  time: '00:00',
+  showTime: false,
 };
 
 const SHOW_GAME_FIELD = 'showGameField';
@@ -19,6 +23,9 @@ const HIDE_GAME_FIELD = 'hideGameField';
 const SHOW_GAME_CONTROLS = 'showGameControls';
 const HIDE_GAME_CONTROLS = 'hideGameControls';
 const UPDATE_REMAINIG_CELLS_COUNT = 'updateRemainingCellsCount';
+const UPDATE_TOTAL_CELLS_COUNT = 'updateTotalCellsCount';
+const SHOW_TIME = 'showTime';
+const HIDE_TIME = 'hideTime';
 
 interface PayloadedAction<T, P> {
   type: T;
@@ -35,13 +42,20 @@ interface IShowGameControlsAction extends Action<typeof SHOW_GAME_CONTROLS> {}
 interface IHideGameControlsAction extends Action<typeof HIDE_GAME_CONTROLS> {}
 interface IUpdateRemainingCellsCountAction
   extends PayloadedAction<typeof UPDATE_REMAINIG_CELLS_COUNT, number> {}
+interface IUpdateTotalCellsCountAction
+  extends PayloadedAction<typeof UPDATE_TOTAL_CELLS_COUNT, number> {}
+interface IShowTimeAction extends Action<typeof SHOW_TIME> {}
+interface IHideTimeAction extends Action<typeof HIDE_TIME> {}
 
 type GameActionsType =
   | IShowGameFieldAction
   | IHideGameFieldAction
   | IShowGameControlsAction
   | IHideGameControlsAction
-  | IUpdateRemainingCellsCountAction;
+  | IUpdateRemainingCellsCountAction
+  | IUpdateTotalCellsCountAction
+  | IShowTimeAction
+  | IHideTimeAction;
 
 function createPayloadedAction<
   T extends PayloadedAction<T['type'], T['payload']>
@@ -71,6 +85,11 @@ export const GameActions = {
     createPayloadedAction<IUpdateRemainingCellsCountAction>(
       UPDATE_REMAINIG_CELLS_COUNT
     ),
+  updateTotalCellsCount: createPayloadedAction<IUpdateTotalCellsCountAction>(
+    UPDATE_TOTAL_CELLS_COUNT
+  ),
+  showTime: createAction<IShowTimeAction>(SHOW_TIME),
+  hideTime: createAction<IHideTimeAction>(HIDE_TIME),
 };
 
 function assertNever(never: never) {
@@ -93,6 +112,15 @@ const settingsReducer = (state: IGameData, action: GameActionsType) => {
     }
     case UPDATE_REMAINIG_CELLS_COUNT: {
       return { ...state, remainingCellsCount: action.payload };
+    }
+    case UPDATE_TOTAL_CELLS_COUNT: {
+      return { ...state, totalCellsCount: action.payload };
+    }
+    case SHOW_TIME: {
+      return { ...state, showTime: true };
+    }
+    case HIDE_TIME: {
+      return { ...state, showTime: false };
     }
     default:
       assertNever(action);

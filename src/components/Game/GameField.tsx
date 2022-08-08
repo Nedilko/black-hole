@@ -3,16 +3,16 @@ import { useGameBoard } from '../../hooks/useGameBoard';
 import { useSettingsStore } from '../../hooks/useSettingsStore';
 import { useGameStore } from '../../hooks/useGameStore';
 import { GameActions } from '../../store/GameStore';
+import { useEffect } from 'react';
 
 const GameField = () => {
   const [{ size, holesCount }, settingsDispatch] = useSettingsStore();
   const [_, gameDispatch] = useGameStore();
   const handleOpenCell = () => {
-    console.log('cell opened');
+    // console.log('cell opened');
   };
 
   const onFinishGame = () => {
-    console.log('GameField: onFinishGame');
     gameDispatch(GameActions.showGameControls());
   };
 
@@ -23,12 +23,18 @@ const GameField = () => {
     handleOpenCell
   );
   const { width, height } = size;
+  useEffect(() => {
+    gameDispatch(GameActions.updateRemainingCellsCount(remainingCellsCount));
+  }, [remainingCellsCount, gameDispatch]);
+
+  useEffect(() => {
+    gameDispatch(
+      GameActions.updateTotalCellsCount(size.width * size.height - holesCount)
+    );
+  }, [gameDispatch, size.height, size.width, holesCount]);
 
   return (
     <div className="flex flex-col">
-      <div className="flex text-white hover:underline">
-        {remainingCellsCount}
-      </div>
       <div className="flex flex-col">
         <div
           className={`grid gap-2 grid-cols-${width} grid-rows-${height} p-4`}
