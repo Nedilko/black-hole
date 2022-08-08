@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { ISettings } from '../../App';
-import { IBoardSize } from '../../game/field';
 import { getSize } from '../../game/helpers';
-import { NumberInput } from './NumberInput';
+import NumberInput from './NumberInput';
 
 type PropsType = {
   onStartGame: (settings: ISettings) => void;
@@ -13,28 +12,17 @@ const SettingsDialog = ({ onStartGame, settings }: PropsType) => {
   const handleApply = () => {
     console.log('apply');
     onStartGame({
-      size,
+      size: {
+        width,
+        height,
+      },
       holesCount,
     });
   };
 
-  const [size, setSize] = useState<IBoardSize>({
-    width: settings.size.width,
-    height: settings.size.height,
-  });
+  const [width, setWidth] = useState<number>(settings.size.width);
+  const [height, setHeight] = useState<number>(settings.size.height);
   const [holesCount, setHolesCount] = useState<number>(settings.holesCount);
-
-  const handleChangeWidth = (value: number) => {
-    setSize({ ...size, width: value });
-  };
-
-  const handleChangeHeight = (value: number) => {
-    setSize({ ...size, height: value });
-  };
-
-  const handleChangeHolesCount = (value: number) => {
-    setHolesCount(value);
-  };
 
   return (
     <div className="flex flex-col p-4">
@@ -43,26 +31,26 @@ const SettingsDialog = ({ onStartGame, settings }: PropsType) => {
         <div className="flex flex-row mt-4 gap-x-6">
           <NumberInput
             label="Width:"
-            value={size.width}
+            value={width}
             min={2}
             max={20}
-            handleChange={handleChangeWidth}
+            handleChange={setWidth}
           />
           <NumberInput
             label="Height:"
             min={2}
             max={20}
-            value={size.height}
-            handleChange={handleChangeHeight}
+            value={height}
+            handleChange={setHeight}
           />
         </div>
         <div className="flex mt-4">
           <NumberInput
             label="Holes count:"
             min={1}
-            max={getSize(size) - 1}
+            max={getSize({ width, height }) - 2}
             value={holesCount}
-            handleChange={handleChangeHolesCount}
+            handleChange={setHolesCount}
           />
         </div>
       </div>

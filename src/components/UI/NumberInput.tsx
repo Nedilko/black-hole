@@ -1,3 +1,5 @@
+import React from 'react';
+
 type PropsType = {
   label: string;
   min: number;
@@ -6,13 +8,7 @@ type PropsType = {
   handleChange: (value: number) => void;
 };
 
-export const NumberInput = ({
-  label,
-  min,
-  max,
-  value,
-  handleChange,
-}: PropsType) => {
+const NumberInput = ({ label, min, max, value, handleChange }: PropsType) => {
   const changeValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(+e.target.value);
   };
@@ -30,3 +26,5 @@ export const NumberInput = ({
     </label>
   );
 };
+
+export default React.memo(NumberInput);
