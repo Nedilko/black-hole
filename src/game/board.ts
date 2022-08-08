@@ -46,7 +46,7 @@ export interface IBoardWithCells extends IBoard {
   handleOpenAllHoles: () => void;
 }
 
-export class GameBoard implements IBoard {
+export class GameBoard implements IBoardWithCells {
   private readonly _size: IBoardSize;
   private readonly _holesCount: number;
   private _holesIndexes: number[];

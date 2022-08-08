@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { GameBoard, IBoardWithCells, IBoardSize } from '../game/field';
+import { GameBoard, IBoardWithCells, IBoardSize } from '../game/board';
 
 export const useGameBoard = (
   size: IBoardSize,

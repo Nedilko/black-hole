@@ -1,4 +1,4 @@
-import type { IBoardWithCells } from './field';
+import type { IBoardWithCells } from './board';
 
 export interface ICellPosition {
   x: number;

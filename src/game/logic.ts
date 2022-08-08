@@ -1,4 +1,4 @@
-import type { IBoardSize } from './field';
+import type { IBoardSize } from './board';
 import type { ICellPosition } from './cell';
 
 export const getHolesIndexes = (

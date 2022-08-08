@@ -4,7 +4,7 @@ import Footer from './components/UI/Footer';
 import GameControls from './components/UI/GameControls';
 import Header from './components/UI/Header';
 import SettingsDialog from './components/UI/SettingsDialog';
-import { IBoardSize } from './game/field';
+import { IBoardSize } from './game/board';
 import { getDefaultSettings } from './state/defaults';
 
 export interface ISettings {

@@ -1,5 +1,5 @@
 import Cell from './Cell';
-import type { IBoardSize } from '../../game/field';
+import type { IBoardSize } from '../../game/board';
 import { useGameBoard } from '../../hooks/useGameBoard';
 
 type PropsType = {

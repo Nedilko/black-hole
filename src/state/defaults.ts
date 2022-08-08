@@ -1,4 +1,4 @@
-import { IBoardSize } from '../game/field';
+import { IBoardSize } from '../game/board';
 
 interface IGameSettings {
   size: IBoardSize;
