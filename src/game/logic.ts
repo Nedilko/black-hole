@@ -22,20 +22,23 @@ export const getCellSurroundingIndexes = (
 ) => {
   const indexesArray: number[] = [];
   const { x, y } = position;
+  const { width, height } = size;
+
   const xMin = x - 1;
   const xMax = x + 1;
   const yMin = y - 1;
   const yMax = y + 1;
+  
   for (let i = xMin; i <= xMax; i++) {
     for (let j = yMin; j <= yMax; j++) {
       if (
         i >= 0 &&
-        i < size.width &&
+        i < width &&
         j >= 0 &&
-        j < size.height &&
+        j < height &&
         !(i === x && j === y)
       ) {
-        indexesArray.push(i + j * size.width);
+        indexesArray.push(i + j * width);
       }
     }
   }
