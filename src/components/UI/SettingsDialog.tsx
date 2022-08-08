@@ -29,13 +29,13 @@ const SettingsDialog = () => {
   const [holes, setHolesCount] = useState<number>(holesCount);
 
   const handleChangeWidth = (value: number) => {
-    if (value > 4) {
+    if (value > 4 && value <= 20) {
       setWidth(value);
     }
   };
 
   const handleChangeHeight = (value: number) => {
-    if (value > 4) {
+    if (value > 4 && value <= 20) {
       setHeight(value);
     }
   };
