@@ -1,8 +1,10 @@
 import React from 'react';
-import { useGameStore } from '../../hooks/useGameStore';
+import { useSelector } from 'react-redux';
 
 const CellsCounter = () => {
-  const [{ remainingCellsCount, totalCellsCount }] = useGameStore();
+  const { remainingCellsCount, totalCellsCount } = useSelector(
+    (state: any) => state.game
+  );
 
   return (
     <>

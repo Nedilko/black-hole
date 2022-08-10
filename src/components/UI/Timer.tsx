@@ -1,12 +1,12 @@
 import React from 'react';
 import { MdOutlineTimer } from 'react-icons/md';
-import { useGameStore } from '../../hooks/useGameStore';
+import { useSelector } from 'react-redux';
 
 const Timer = () => {
-  const [{ time, showTime }] = useGameStore();
-  // if (!showTime) return null;
+  const { time } = useSelector((state: any) => state.game);
+
   return (
-    <div className={`flex items-center ${!showTime ? 'invisible' : ''}`}>
+    <div className={`flex items-center`}>
       {time}
       <MdOutlineTimer className="ml-2" />
     </div>

@@ -1,4 +1,4 @@
-import { ISettings } from './SettingsStore';
+import { ISettings } from '../store/actions/settings';
 
 const easySettings: ISettings = {
   size: {

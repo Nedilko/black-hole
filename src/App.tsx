@@ -3,24 +3,13 @@ import Footer from './components/UI/Footer';
 import GameControls from './components/UI/GameControls';
 import Header from './components/UI/Header';
 import SettingsDialog from './components/UI/SettingsDialog';
-import { useGameStore } from './hooks/useGameStore';
-import { useSettingsStore } from './hooks/useSettingsStore';
-import { SettingsActions } from './store/SettingsStore';
-import { GameActions } from './store/GameStore';
+
+import { useSelector } from 'react-redux';
 
 function App() {
-  const [{ showGameField, showGameControls }, gameDispatch] = useGameStore();
-  const [settings, settingsDispatch] = useSettingsStore();
-
-  const handleTryAgain = () => {
-    gameDispatch(GameActions.hideGameControls());
-    settingsDispatch(SettingsActions.setLastSettings(settings));
-  };
-
-  const handleBackToMenu = () => {
-    gameDispatch(GameActions.hideGameField());
-    gameDispatch(GameActions.hideGameControls());
-  };
+  const { showGameField, showGameControls } = useSelector(
+    (state: any) => state.game
+  );
 
   return (
     <div className="font-extralight bg-gradient-to-b from-[#06070d] via-[#061234] to-[#0e103e]">
@@ -34,12 +23,7 @@ function App() {
         </main>
         <footer className="flex flex-col mt-auto justify-center items-center">
           <div className="flex mb-4">
-            {showGameControls && (
-              <GameControls
-                onTryAgain={handleTryAgain}
-                onMainMenu={handleBackToMenu}
-              />
-            )}
+            {showGameControls && <GameControls />}
           </div>
           <Footer />
         </footer>

@@ -1,19 +1,19 @@
 import Cell from './Cell';
 import { useGameBoard } from '../../hooks/useGameBoard';
-import { useSettingsStore } from '../../hooks/useSettingsStore';
-import { useGameStore } from '../../hooks/useGameStore';
-import { GameActions } from '../../store/GameStore';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { gameActions } from '../../store/actions/game';
 
 const GameField = () => {
-  const [{ size, holesCount }, settingsDispatch] = useSettingsStore();
-  const [_, gameDispatch] = useGameStore();
+  const dispatch = useDispatch();
+
+  const { size, holesCount } = useSelector((state: any) => state.settings);
   const handleOpenCell = () => {
     // console.log('cell opened');
   };
 
   const onFinishGame = () => {
-    gameDispatch(GameActions.showGameControls());
+    dispatch(gameActions.showGameControls());
   };
 
   const [board, remainingCellsCount] = useGameBoard(
@@ -24,14 +24,14 @@ const GameField = () => {
   );
   const { width, height } = size;
   useEffect(() => {
-    gameDispatch(GameActions.updateRemainingCellsCount(remainingCellsCount));
-  }, [remainingCellsCount, gameDispatch]);
+    dispatch(gameActions.updateRemainingCellsCount(remainingCellsCount));
+  }, [remainingCellsCount, dispatch]);
 
   useEffect(() => {
-    gameDispatch(
-      GameActions.updateTotalCellsCount(size.width * size.height - holesCount)
+    dispatch(
+      gameActions.updateTotalCellsCount(size.width * size.height - holesCount)
     );
-  }, [gameDispatch, size.height, size.width, holesCount]);
+  }, [dispatch, size.height, size.width, holesCount]);
 
   return (
     <div className="flex flex-col">

@@ -3,19 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { GameContextProvider } from './store/GameStore';
-import { SettingsContextProvider } from './store/SettingsStore';
+import { Provider } from 'react-redux';
+import settingsReduxStore from './store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <SettingsContextProvider>
-      <GameContextProvider>
-        <App />
-      </GameContextProvider>
-    </SettingsContextProvider>
+    <Provider store={settingsReduxStore}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 
