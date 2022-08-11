@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { gameActions } from '../../store/actions/game';
-import { settingsActions } from '../../store/actions/settings';
+import { RootState } from '../../store';
+import { gameActions } from '../../store/actions';
+import { settingsActions } from '../../store/actions';
 import NumberInput from './NumberInput';
 
 const SettingsDialog = () => {
@@ -20,7 +21,9 @@ const SettingsDialog = () => {
     );
   };
 
-  const { size, holesCount } = useSelector((state: any) => state.settings);
+  const { size, holesCount } = useSelector(
+    (state: RootState) => state.settings
+  );
 
   const [width, setWidth] = useState<number>(size.width);
   const [height, setHeight] = useState<number>(size.height);

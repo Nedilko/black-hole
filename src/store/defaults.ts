@@ -1,6 +1,6 @@
-import { ISettings } from '../store/actions/settings';
+import { SettingsState } from '../store/actions/settings';
 
-const easySettings: ISettings = {
+const easySettings: SettingsState = {
   size: {
     width: 8,
     height: 8,
@@ -8,7 +8,7 @@ const easySettings: ISettings = {
   holesCount: 10,
 };
 
-const mediumSettings: ISettings = {
+const mediumSettings: SettingsState = {
   size: {
     width: 15,
     height: 15,
@@ -16,7 +16,7 @@ const mediumSettings: ISettings = {
   holesCount: 20,
 };
 
-const hardSettings: ISettings = {
+const hardSettings: SettingsState = {
   size: {
     width: 20,
     height: 20,
@@ -24,13 +24,13 @@ const hardSettings: ISettings = {
   holesCount: 30,
 };
 
-export const getDefaultSettings = (): ISettings =>
+export const getDefaultSettings = (): SettingsState =>
   Object.create({
     size: Object.create(easySettings.size),
     holesCount: easySettings.holesCount,
   });
 
-export const getSettings = (settings: ISettings): ISettings =>
+export const getSettings = (settings: SettingsState): SettingsState =>
   Object.create({
     size: Object.create(settings.size),
     holesCount: settings.holesCount,

@@ -1,17 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IBoardSize } from '../../game/board';
+import type { IBoardSize } from '../../game/board';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-export interface ISettings {
+export interface SettingsState {
   size: IBoardSize;
   holesCount: number;
 }
-const defaultStateValue = { holesCount: 10, size: { width: 8, height: 8 } };
+const defaultStateValue: SettingsState = {
+  holesCount: 10,
+  size: { width: 8, height: 8 },
+};
 
 const settingsSlice = createSlice({
   name: 'settings',
   initialState: defaultStateValue,
   reducers: {
-    setSettings: (state, action) => {
+    setSettings: (state, action: PayloadAction<SettingsState>) => {
       state.size = action.payload.size;
       state.holesCount = action.payload.holesCount;
     },

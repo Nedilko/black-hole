@@ -1,6 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-const defaultStateValue = {
+export interface GameState {
+  showGameField: boolean;
+  showGameControls: boolean;
+  remainingCellsCount: number;
+  totalCellsCount: number;
+  showTime: boolean;
+  showCounter: boolean;
+  time: string;
+}
+
+const defaultStateValue: GameState = {
   showGameField: false,
   showGameControls: false,
   remainingCellsCount: 0,
@@ -26,10 +37,10 @@ const gameSlice = createSlice({
     hideGameControls: (state) => {
       state.showGameControls = false;
     },
-    updateRemainingCellsCount: (state, action) => {
+    updateRemainingCellsCount: (state, action: PayloadAction<number>) => {
       state.remainingCellsCount = action.payload;
     },
-    updateTotalCellsCount: (state, action) => {
+    updateTotalCellsCount: (state, action: PayloadAction<number>) => {
       state.totalCellsCount = action.payload;
     },
     showCounter: (state) => {

@@ -2,12 +2,15 @@ import Cell from './Cell';
 import { useGameBoard } from '../../hooks/useGameBoard';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { gameActions } from '../../store/actions/game';
+import { gameActions } from '../../store/actions';
+import { RootState } from '../../store';
 
 const GameField = () => {
   const dispatch = useDispatch();
 
-  const { size, holesCount } = useSelector((state: any) => state.settings);
+  const { size, holesCount } = useSelector(
+    (state: RootState) => state.settings
+  );
   const handleOpenCell = () => {
     // console.log('cell opened');
   };

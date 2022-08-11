@@ -5,10 +5,11 @@ import Header from './components/UI/Header';
 import SettingsDialog from './components/UI/SettingsDialog';
 
 import { useSelector } from 'react-redux';
+import type { RootState } from './store';
 
 function App() {
   const { showGameField, showGameControls } = useSelector(
-    (state: any) => state.game
+    (state: RootState) => state.game
   );
 
   return (

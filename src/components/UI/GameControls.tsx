@@ -1,7 +1,7 @@
 import { MdReplay, MdOutlineArrowUpward } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
-import { gameActions } from '../../store/actions/game';
-import { settingsActions } from '../../store/actions/settings';
+import { gameActions } from '../../store/actions';
+import { settingsActions } from '../../store/actions';
 
 const GameControls = () => {
   const dispatch = useDispatch();
