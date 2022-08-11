@@ -28,13 +28,13 @@ const GameField = () => {
   const { width, height } = size;
   useEffect(() => {
     dispatch(gameActions.updateRemainingCellsCount(remainingCellsCount));
-  }, [remainingCellsCount, dispatch]);
+  }, [remainingCellsCount]);
 
   useEffect(() => {
     dispatch(
       gameActions.updateTotalCellsCount(size.width * size.height - holesCount)
     );
-  }, [dispatch, size.height, size.width, holesCount]);
+  }, [size, holesCount]);
 
   return (
     <div className="flex flex-col">

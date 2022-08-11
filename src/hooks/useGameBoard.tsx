@@ -7,13 +7,14 @@ export const useGameBoard = (
   onFinish: () => void,
   onOpenCell: () => void
 ): [IBoardWithCells, number] => {
+
   const board: IBoardWithCells = useMemo(
     () =>
       GameBoard.create(
         size,
         holesCount,
         () => {
-          setOpenedCellCount(board.remainingCellsCount);
+          setRemainingCellsCount(board.remainingCellsCount);
           onOpenCell();
         },
         onFinish
@@ -21,11 +22,13 @@ export const useGameBoard = (
     [holesCount, size]
   );
 
-  const [openedCellCount, setOpenedCellCount] = useState(0);
+  const [remainingCellsCount, setRemainingCellsCount] = useState(
+    board.remainingCellsCount
+  );
 
   useEffect(() => {
-    setOpenedCellCount(board.remainingCellsCount);
+    setRemainingCellsCount(board.remainingCellsCount);
   }, [board.remainingCellsCount]);
 
-  return [board, openedCellCount];
+  return [board, remainingCellsCount];
 };
