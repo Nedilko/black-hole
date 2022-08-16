@@ -4,7 +4,7 @@ import { RootState } from '../../store';
 
 const CellsCounter = () => {
   const { remainingCellsCount, totalCellsCount } = useSelector(
-    (state: RootState) => state.game
+    (state: RootState) => state.field
   );
 
   return (

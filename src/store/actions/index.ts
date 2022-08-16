@@ -1,4 +1,4 @@
 import { gameActions } from './game';
-import { settingsActions } from './settings';
+import { fieldActions } from './field';
 
-export { gameActions, settingsActions };
+export { gameActions, fieldActions };

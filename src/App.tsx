@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import type { RootState } from './store';
 
 function App() {
-  const { showGameField, showGameControls } = useSelector(
+  const { showGameField, showGameControls, showSettings } = useSelector(
     (state: RootState) => state.game
   );
 
@@ -19,7 +19,7 @@ function App() {
           <Header />
         </header>
         <main className="flex flex-col mt-24 justify-center items-center">
-          {!showGameField && <SettingsDialog />}
+          {showSettings && <SettingsDialog />}
           {showGameField && <GameField />}
         </main>
         <footer className="flex flex-col mt-auto justify-center items-center">

@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 
 type PropsType = {
+  index: number;
   isOpen: boolean;
   isHole: boolean;
+  isMarked: boolean;
   holesNearCount: number;
-  handleOpen: () => void;
+  handleOpen: (index: number) => void;
+  handleMarkCell: (index: number) => void;
 };
 
-const Cell = ({ handleOpen, holesNearCount, isHole, isOpen }: PropsType) => {
-  const handleClick = (e: any) => {
-    e.preventDefault();
-    if (e.type === 'click') {
-      handleOpen();
-    } else if (e.type === 'contextmenu') {
-    }
+const Cell = ({
+  index,
+  handleOpen,
+  handleMarkCell,
+  holesNearCount,
+  isHole,
+  isOpen,
+  isMarked,
+}: PropsType) => {
+  const handleLeftClick: MouseEventHandler<HTMLButtonElement> = () => {
+    handleOpen(index);
+  };
+
+  const handleRightClick: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.preventDefault();
+    handleMarkCell(index);
   };
 
   const isZeroHolesNear = holesNearCount === 0;
@@ -28,12 +40,14 @@ const Cell = ({ handleOpen, holesNearCount, isHole, isOpen }: PropsType) => {
       : isZeroHolesNear
       ? 'border-2 rounded-md border-gray-700 bg-gray-700/10 cursor-default'
       : 'rounded-full border-2 border-gray-300 cursor-default'
+    : isMarked
+    ? 'rounded-md border-2 border-cyan-600/90 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10'
     : 'rounded-md border-2 border-gray-400 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10';
 
   return (
     <button
-      onClick={handleClick}
-      onContextMenu={handleClick}
+      onClick={handleLeftClick}
+      onContextMenu={handleRightClick}
       className={`text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 ${cellClassName}`}
     >
       {value}

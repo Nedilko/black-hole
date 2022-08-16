@@ -1,33 +1,23 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { gameActions } from '../../store/actions';
-import { settingsActions } from '../../store/actions';
+import { startGame } from '../../store/actions/game';
 import NumberInput from './NumberInput';
 
 const SettingsDialog = () => {
   const dispatch = useDispatch();
-
-  const handleApply = () => {
-    dispatch(gameActions.showGameField());
-    dispatch(
-      settingsActions.setSettings({
-        size: {
-          width,
-          height,
-        },
-        holesCount: holes,
-      })
-    );
-  };
-
-  const { size, holesCount } = useSelector(
-    (state: RootState) => state.settings
+  const currentSize = useSelector((state: RootState) => state.field.size);
+  const currentHolesCount = useSelector(
+    (state: RootState) => state.field.holesCount
   );
 
-  const [width, setWidth] = useState<number>(size.width);
-  const [height, setHeight] = useState<number>(size.height);
-  const [holes, setHolesCount] = useState<number>(holesCount);
+  const handleStartGame = () => {
+    dispatch(startGame({ width, height }, holesCount));
+  };
+
+  const [width, setWidth] = useState<number>(currentSize.width);
+  const [height, setHeight] = useState<number>(currentSize.height);
+  const [holesCount, setHolesCount] = useState<number>(currentHolesCount);
 
   const handleChangeWidth = (value: number) => {
     if (value > 4 && value <= 20) {
@@ -72,7 +62,7 @@ const SettingsDialog = () => {
             label="Holes count:"
             min={1}
             max={width * height - 2}
-            value={holes}
+            value={holesCount}
             handleChange={handleChangeHolesCount}
           />
         </div>
@@ -80,7 +70,7 @@ const SettingsDialog = () => {
       <div className="flex justify-center mt-12">
         <button
           className="pb-1 text-5xl text-gray-300/80 uppercase hover:text-shadow hover:text-gray-300 transition-all duration-150"
-          onClick={handleApply}
+          onClick={handleStartGame}
         >
           Start
         </button>

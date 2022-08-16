@@ -1,8 +1,7 @@
-import type { IBoardSize } from './board';
-import type { ICellPosition } from './cell';
+import { CellPosition, FieldSize } from '../store/actions/field';
 
 export const getHolesIndexes = (
-  { width, height }: IBoardSize,
+  { width, height }: FieldSize,
   holesCount: number
 ): number[] => {
   const indexesArray: number[] = [];
@@ -16,8 +15,8 @@ export const getHolesIndexes = (
 };
 
 export const getCellSurroundingIndexes = (
-  { x, y }: ICellPosition,
-  { width, height }: IBoardSize
+  { x, y }: CellPosition,
+  { width, height }: FieldSize
 ) => {
   const indexesArray: number[] = [];
 

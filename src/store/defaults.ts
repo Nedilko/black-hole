@@ -1,6 +1,6 @@
-import { SettingsState } from '../store/actions/settings';
+import { FieldSettings } from './actions/field';
 
-const easySettings: SettingsState = {
+const easySettings: FieldSettings = {
   size: {
     width: 8,
     height: 8,
@@ -8,7 +8,7 @@ const easySettings: SettingsState = {
   holesCount: 10,
 };
 
-const mediumSettings: SettingsState = {
+const mediumSettings: FieldSettings = {
   size: {
     width: 15,
     height: 15,
@@ -16,7 +16,7 @@ const mediumSettings: SettingsState = {
   holesCount: 20,
 };
 
-const hardSettings: SettingsState = {
+const hardSettings: FieldSettings = {
   size: {
     width: 20,
     height: 20,
@@ -24,13 +24,15 @@ const hardSettings: SettingsState = {
   holesCount: 30,
 };
 
-export const getDefaultSettings = (): SettingsState =>
-  Object.create({
-    size: Object.create(easySettings.size),
-    holesCount: easySettings.holesCount,
-  });
+// export const getDefaultSettings = (): SettingsState =>
+//   Object.create({
+//     size: Object.create(easySettings.size),
+//     holesCount: easySettings.holesCount,
+//   });
 
-export const getSettings = (settings: SettingsState): SettingsState =>
+export const getDefaultSettings = (): FieldSettings => easySettings;
+
+export const getSettings = (settings: FieldSettings): FieldSettings =>
   Object.create({
     size: Object.create(settings.size),
     holesCount: settings.holesCount,

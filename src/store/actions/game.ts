@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import type { FieldSize } from './field';
+import type { AppDispatch } from '..';
+import { fieldActions } from './field';
 
 export interface GameState {
   showGameField: boolean;
@@ -8,6 +10,7 @@ export interface GameState {
   totalCellsCount: number;
   showTime: boolean;
   showCounter: boolean;
+  showSettings: boolean;
   time: string;
 }
 
@@ -16,8 +19,9 @@ const defaultStateValue: GameState = {
   showGameControls: false,
   remainingCellsCount: 0,
   totalCellsCount: 0,
-  showTime: true,
-  showCounter: true,
+  showTime: false,
+  showCounter: false,
+  showSettings: true,
   time: '00:00',
 };
 
@@ -37,12 +41,6 @@ const gameSlice = createSlice({
     hideGameControls: (state) => {
       state.showGameControls = false;
     },
-    updateRemainingCellsCount: (state, action: PayloadAction<number>) => {
-      state.remainingCellsCount = action.payload;
-    },
-    updateTotalCellsCount: (state, action: PayloadAction<number>) => {
-      state.totalCellsCount = action.payload;
-    },
     showCounter: (state) => {
       state.showCounter = true;
     },
@@ -55,8 +53,45 @@ const gameSlice = createSlice({
     hideTime: (state) => {
       state.showTime = false;
     },
+    showSettings: (state) => {
+      state.showSettings = true;
+    },
+    hideSettings: (state) => {
+      state.showSettings = false;
+    },
+    finishGame: (state) => {
+      state.showGameControls = true;
+      state.showTime = false;
+      state.showCounter = false;
+    },
   },
 });
+
+export const showMainMenu = (): any => (dispatch: AppDispatch) => {
+  dispatch(gameSlice.actions.hideGameField());
+  dispatch(gameSlice.actions.hideGameControls());
+  dispatch(gameSlice.actions.hideCounter());
+  dispatch(gameSlice.actions.hideTime());
+  dispatch(gameSlice.actions.showSettings());
+};
+
+export const restartGame = (): any => (dispatch: AppDispatch) => {
+  dispatch(fieldActions.renewField());
+  dispatch(gameSlice.actions.showCounter());
+  dispatch(gameSlice.actions.showTime());
+  dispatch(gameSlice.actions.hideGameControls());
+};
+
+export const startGame =
+  (size: FieldSize, holesCount: number): any =>
+  (dispatch: AppDispatch): any => {
+    dispatch(fieldActions.setupField({ size, holesCount }));
+    dispatch(gameSlice.actions.showGameField());
+    dispatch(gameSlice.actions.hideGameControls());
+    dispatch(gameSlice.actions.showCounter());
+    dispatch(gameSlice.actions.showTime());
+    dispatch(gameSlice.actions.hideSettings());
+  };
 
 export default gameSlice.reducer;
 

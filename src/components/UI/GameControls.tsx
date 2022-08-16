@@ -1,19 +1,16 @@
 import { MdReplay, MdOutlineArrowUpward } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
-import { gameActions } from '../../store/actions';
-import { settingsActions } from '../../store/actions';
+import { restartGame, showMainMenu } from '../../store/actions/game';
 
 const GameControls = () => {
   const dispatch = useDispatch();
 
   const handleBackToMenu = () => {
-    dispatch(gameActions.hideGameField());
-    dispatch(gameActions.hideGameControls());
+    dispatch(showMainMenu());
   };
 
   const handleTryAgain = () => {
-    dispatch(gameActions.hideGameControls());
-    dispatch(settingsActions.setLastSettings());
+    dispatch(restartGame());
   };
 
   return (

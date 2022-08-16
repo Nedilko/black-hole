@@ -1,11 +1,11 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import gameReducer from './actions/game';
-import settingsReducer from './actions/settings';
+import fieldReducer from './actions/field';
 
 const rootReducer = combineReducers({
   game: gameReducer,
-  settings: settingsReducer,
+  field: fieldReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
