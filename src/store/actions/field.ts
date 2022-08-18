@@ -136,16 +136,20 @@ export const openCell =
     const { field } = getState();
 
     if (field.cells[index].isOpen) return;
+
     if (field.cells[index].isHole) {
       dispatch(fieldActions.openAllHoles());
       dispatch(gameActions.finishGame());
+      return;
+    }
+
+    if (field.remainingCellsCount === 1) {
+      dispatch(fieldActions.openCell(index));
+      dispatch(gameActions.finishGame());
+      return;
     }
 
     dispatch(fieldActions.openCell(index));
-
-    if (field.remainingCellsCount === 1) {
-      return;
-    }
 
     if (field.cells[index].holesNearCount === 0) {
       getCellSurroundingIndexes(

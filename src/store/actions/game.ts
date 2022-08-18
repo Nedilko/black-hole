@@ -29,57 +29,31 @@ const gameSlice = createSlice({
   name: 'game',
   initialState: defaultStateValue,
   reducers: {
-    showGameField: (state) => {
-      state.showGameField = true;
-    },
-    hideGameField: (state) => {
-      state.showGameField = false;
-    },
-    showGameControls: (state) => {
-      state.showGameControls = true;
-    },
-    hideGameControls: (state) => {
-      state.showGameControls = false;
-    },
-    showCounter: (state) => {
-      state.showCounter = true;
-    },
-    hideCounter: (state) => {
-      state.showCounter = false;
-    },
-    showTime: (state) => {
-      state.showTime = true;
-    },
-    hideTime: (state) => {
-      state.showTime = false;
-    },
-    showSettings: (state) => {
-      state.showSettings = true;
-    },
-    hideSettings: (state) => {
-      state.showSettings = false;
-    },
     finishGame: (state) => {
       state.showGameControls = true;
       state.showTime = false;
       state.showCounter = false;
     },
+    showMainMenu: (state) => {
+      state.showGameField = false;
+      state.showGameControls = false;
+      state.showCounter = false;
+      state.showTime = false;
+      state.showSettings = true;
+    },
+    showGameField(state) {
+      state.showGameControls = false;
+      state.showCounter = true;
+      state.showTime = true;
+      state.showSettings = false;
+      state.showGameField = true;
+    },
   },
 });
 
-export const showMainMenu = (): any => (dispatch: AppDispatch) => {
-  dispatch(gameSlice.actions.hideGameField());
-  dispatch(gameSlice.actions.hideGameControls());
-  dispatch(gameSlice.actions.hideCounter());
-  dispatch(gameSlice.actions.hideTime());
-  dispatch(gameSlice.actions.showSettings());
-};
-
 export const restartGame = (): any => (dispatch: AppDispatch) => {
   dispatch(fieldActions.renewField());
-  dispatch(gameSlice.actions.showCounter());
-  dispatch(gameSlice.actions.showTime());
-  dispatch(gameSlice.actions.hideGameControls());
+  dispatch(gameSlice.actions.showGameField());
 };
 
 export const startGame =
@@ -87,11 +61,7 @@ export const startGame =
   (dispatch: AppDispatch): any => {
     dispatch(fieldActions.setupField({ size, holesCount }));
     dispatch(gameSlice.actions.showGameField());
-    dispatch(gameSlice.actions.hideGameControls());
-    dispatch(gameSlice.actions.showCounter());
-    dispatch(gameSlice.actions.showTime());
-    dispatch(gameSlice.actions.hideSettings());
-  };
+  };;
 
 export default gameSlice.reducer;
 
