@@ -1,14 +1,15 @@
 import React, { MouseEventHandler } from 'react';
+import withInterctivity, { WithInteractivityProps } from './withIntercativity';
+import withStyles from './withStyles';
 
-type PropsType = {
+interface PropsType extends WithInteractivityProps {
   index: number;
   isOpen: boolean;
   isHole: boolean;
   isMarked: boolean;
   holesNearCount: number;
-  handleOpen: (index: number) => void;
-  handleMarkCell: (index: number) => void;
-};
+  cellStyle?: string;
+}
 
 const Cell = ({
   index,
@@ -17,7 +18,7 @@ const Cell = ({
   holesNearCount,
   isHole,
   isOpen,
-  isMarked,
+  cellStyle = '',
 }: PropsType) => {
   const handleLeftClick: MouseEventHandler<HTMLButtonElement> = () => {
     handleOpen(index);
@@ -28,31 +29,18 @@ const Cell = ({
     handleMarkCell(index);
   };
 
-  const isZeroHolesNear = holesNearCount === 0;
-
-  const cellValue = isHole ? '' : isZeroHolesNear ? '' : holesNearCount;
-
-  let value = isOpen ? cellValue : '';
-
-  const cellClassName = isOpen
-    ? isHole
-      ? 'rounded-full border-2 border-red-800 bg-black cursor-default'
-      : isZeroHolesNear
-      ? 'border-2 rounded-md border-gray-700 bg-gray-700/10 cursor-default'
-      : 'rounded-full border-2 border-gray-300 cursor-default'
-    : isMarked
-    ? 'rounded-md border-2 border-cyan-600/90 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10'
-    : 'rounded-md border-2 border-gray-400 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10';
+  const canShowValue = holesNearCount !== 0 && !isHole;
+  const displayValue = isOpen ? holesNearCount : '';
 
   return (
     <button
       onClick={handleLeftClick}
       onContextMenu={handleRightClick}
-      className={`text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 ${cellClassName}`}
+      className={`text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 ${cellStyle}`}
     >
-      {value}
+      {canShowValue && displayValue}
     </button>
   );
 };
 
-export default React.memo(Cell);
+export default React.memo(withInterctivity(withStyles(Cell)));

@@ -1,30 +1,12 @@
 import Cell from './Cell';
-import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState, useAppDispatch } from '../../store';
-import { fieldActions, openCell } from '../../store/actions/field';
+import { RootState } from '../../store';
 import type { GameCell } from '../../store/actions/field';
 
 const GameField = () => {
-  const dispatch = useAppDispatch();
-
   const { width, height } = useSelector((state: RootState) => state.field.size);
 
   const cells = useSelector((state: RootState) => state.field.cells);
-
-  const handleOpenCell = useCallback(
-    (cellIndex: number) => {
-      dispatch(openCell(cellIndex));
-    },
-    [dispatch]
-  );
-
-  const handleMarkCell = useCallback(
-    (cellIndex: number) => {
-      dispatch(fieldActions.toggleMarkCell(cellIndex));
-    },
-    [dispatch]
-  );
 
   return (
     <div className="flex flex-col">
@@ -42,8 +24,6 @@ const GameField = () => {
                 isHole={isHole}
                 isMarked={isMarked}
                 holesNearCount={holesNearCount}
-                handleOpen={handleOpenCell}
-                handleMarkCell={handleMarkCell}
               />
             );
           })}
@@ -51,6 +31,6 @@ const GameField = () => {
       </div>
     </div>
   );
-};;
+};
 
 export default GameField;
