@@ -1,11 +1,7 @@
 import { FC, useCallback } from 'react';
-import { useAppDispatch } from '../../store';
-import { fieldActions, openCell } from '../../store/actions/field';
-
-export interface WithInteractivityProps {
-  handleOpen: (index: number) => void;
-  handleMarkCell: (index: number) => void;
-}
+import { useAppDispatch } from '../../../store';
+import { fieldActions, openCell } from '../../../store/actions/field';
+import type { WithInteractivityProps } from './index';
 
 const withInterctivity = <
   T extends WithInteractivityProps = WithInteractivityProps

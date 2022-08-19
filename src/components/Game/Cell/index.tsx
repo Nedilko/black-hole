@@ -1,14 +1,22 @@
 import React, { MouseEventHandler } from 'react';
-import withInterctivity, { WithInteractivityProps } from './withIntercativity';
+import withInterctivity from './withIntercativity';
 import withStyles from './withStyles';
 
-interface PropsType extends WithInteractivityProps {
-  index: number;
+export interface WithInteractivityProps {
+  handleOpen: (index: number) => void;
+  handleMarkCell: (index: number) => void;
+}
+
+export interface WithStylesProps {
+  cellStyle?: string;
+}
+
+export interface CellPropsType extends WithInteractivityProps, WithStylesProps {
   isOpen: boolean;
   isHole: boolean;
   isMarked: boolean;
   holesNearCount: number;
-  cellStyle?: string;
+  index: number;
 }
 
 const Cell = ({
@@ -19,7 +27,7 @@ const Cell = ({
   isHole,
   isOpen,
   cellStyle = '',
-}: PropsType) => {
+}: CellPropsType) => {
   const handleLeftClick: MouseEventHandler<HTMLButtonElement> = () => {
     handleOpen(index);
   };

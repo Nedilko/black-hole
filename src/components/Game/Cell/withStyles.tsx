@@ -1,3 +1,6 @@
+import { FC } from 'react';
+import type { CellPropsType, WithStylesProps } from './index';
+
 export type CellType = 'regular' | 'empty' | 'hole';
 
 const CELL_STYLES = {
@@ -6,11 +9,13 @@ const CELL_STYLES = {
   REGULAR: 'rounded-full border-2 border-gray-300 cursor-default',
 };
 
-const withStyles = (WrappedCell: any) => {
+const withStyles = <T extends CellPropsType = CellPropsType>(
+  WrappedCell: FC<T>
+) => {
   const displayName =
     WrappedCell.displayName || WrappedCell.name || 'Component';
 
-  const StyledCell = (props: any) => {
+  const StyledCell = (props: Omit<T, keyof WithStylesProps>) => {
     const { holesNearCount, isHole, isOpen, isMarked } = props;
 
     let cellStyle = isHole
@@ -23,7 +28,7 @@ const withStyles = (WrappedCell: any) => {
     if (!isOpen) {
       cellStyle = `rounded-md border-2 ${markedStyle} bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10"`;
     }
-    return <WrappedCell {...props} cellStyle={cellStyle} />;
+    return <WrappedCell {...(props as T)} cellStyle={cellStyle} />;
   };
 
   StyledCell.displayName = `StyledCell(${displayName})`;
