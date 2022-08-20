@@ -8,12 +8,9 @@ export interface CellPosition {
   y: number;
 }
 
-interface Cell {
+export interface FieldCell {
   index: number;
   position: CellPosition;
-}
-
-export interface GameCell extends Cell {
   isHole: boolean;
   isOpen: boolean;
   isMarked: boolean;
@@ -32,7 +29,7 @@ export interface FieldSettings {
 
 interface FieldState extends FieldSettings {
   holesIndexes: number[];
-  cells: GameCell[];
+  cells: FieldCell[];
   remainingCellsCount: number;
   totalCellsCount: number;
   openedCellIndexes: number[];
@@ -41,10 +38,10 @@ interface FieldState extends FieldSettings {
 const getCellsWithData = (
   size: FieldSize,
   holesIndexes: number[]
-): GameCell[] => {
+): FieldCell[] => {
   const isHole = (index: number) => holesIndexes.includes(index);
   const { width, height } = size;
-  const result: GameCell[] = [];
+  const result: FieldCell[] = [];
   for (let i = 0, index = 0; i < height; i++) {
     for (let j = 0; j < width; j++, index++) {
       const position = { x: j, y: i };

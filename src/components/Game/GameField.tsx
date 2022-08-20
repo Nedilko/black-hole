@@ -1,7 +1,7 @@
 import Cell from './Cell';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import type { GameCell } from '../../store/actions/field';
+import type { FieldCell } from '../../store/actions/field';
 
 const GameField = () => {
   const { width, height } = useSelector((state: RootState) => state.field.size);
@@ -14,7 +14,7 @@ const GameField = () => {
         <div
           className={`grid gap-2 grid-cols-${width} grid-rows-${height} p-4`}
         >
-          {cells.map((cell: GameCell) => {
+          {cells.map((cell: FieldCell) => {
             const { index, isHole, holesNearCount, isOpen, isMarked } = cell;
             return (
               <Cell

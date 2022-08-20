@@ -1,4 +1,5 @@
 import React, { MouseEventHandler } from 'react';
+import type { FieldCell } from '../../../store/actions/field';
 import withInterctivity from './withIntercativity';
 import withStyles from './withStyles';
 
@@ -11,13 +12,10 @@ export interface WithStylesProps {
   cellStyle?: string;
 }
 
-export interface CellPropsType extends WithInteractivityProps, WithStylesProps {
-  isOpen: boolean;
-  isHole: boolean;
-  isMarked: boolean;
-  holesNearCount: number;
-  index: number;
-}
+export interface CellPropsType
+  extends Omit<FieldCell, 'position'>,
+    WithInteractivityProps,
+    WithStylesProps {}
 
 const Cell = ({
   index,
