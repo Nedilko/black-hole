@@ -107,11 +107,14 @@ const fieldSlice = createSlice({
       state.openedCellIndexes = [];
     },
     openCell: (state, action: PayloadAction<number>) => {
-      if (!state.cells[action.payload].isMarked) {
-        state.cells[action.payload].isOpen = true;
-        state.remainingCellsCount--;
-        state.openedCellIndexes.push(action.payload);
-      }
+      // if (!state.cells[action.payload].isMarked) {
+      //   state.cells[action.payload].isOpen = true;
+      //   state.remainingCellsCount--;
+      //   state.openedCellIndexes.push(action.payload);
+      // }
+      state.cells[action.payload].isOpen = true;
+      state.remainingCellsCount--;
+      state.openedCellIndexes.push(action.payload);
     },
     toggleMarkCell: (state, action: PayloadAction<number>) => {
       if (!state.cells[action.payload].isOpen) {
@@ -130,9 +133,14 @@ const fieldSlice = createSlice({
 export const openCell =
   (index: number): any =>
   (dispatch: any, getState: any) => {
-    const { field } = getState();
+    const { field, game } = getState();
 
-    if (field.cells[index].isOpen) return;
+    if (
+      field.cells[index].isOpen ||
+      field.cells[index].isMarked ||
+      game.isFinished
+    )
+      return;
 
     if (field.cells[index].isHole) {
       dispatch(fieldActions.openAllHoles());

@@ -12,6 +12,7 @@ export interface GameState {
   showCounter: boolean;
   showSettings: boolean;
   time: string;
+  isFinished: boolean;
 }
 
 const defaultStateValue: GameState = {
@@ -23,6 +24,7 @@ const defaultStateValue: GameState = {
   showCounter: false,
   showSettings: true,
   time: '00:00',
+  isFinished: false,
 };
 
 const gameSlice = createSlice({
@@ -33,6 +35,7 @@ const gameSlice = createSlice({
       state.showGameControls = true;
       state.showTime = false;
       state.showCounter = false;
+      state.isFinished = true;
     },
     showMainMenu: (state) => {
       state.showGameField = false;
@@ -40,6 +43,7 @@ const gameSlice = createSlice({
       state.showCounter = false;
       state.showTime = false;
       state.showSettings = true;
+      state.isFinished = false;
     },
     showGameField(state) {
       state.showGameControls = false;
@@ -47,6 +51,7 @@ const gameSlice = createSlice({
       state.showTime = true;
       state.showSettings = false;
       state.showGameField = true;
+      state.isFinished = false;
     },
   },
 });
