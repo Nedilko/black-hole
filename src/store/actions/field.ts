@@ -107,11 +107,6 @@ const fieldSlice = createSlice({
       state.openedCellIndexes = [];
     },
     openCell: (state, action: PayloadAction<number>) => {
-      // if (!state.cells[action.payload].isMarked) {
-      //   state.cells[action.payload].isOpen = true;
-      //   state.remainingCellsCount--;
-      //   state.openedCellIndexes.push(action.payload);
-      // }
       state.cells[action.payload].isOpen = true;
       state.remainingCellsCount--;
       state.openedCellIndexes.push(action.payload);
