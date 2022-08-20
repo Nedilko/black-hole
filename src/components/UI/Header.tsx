@@ -9,13 +9,15 @@ const Header = () => {
     (state: RootState) => state.game
   );
   return (
-    <div className="flex flex-col justify-center w-full items-center text-5xl text-gray-300/80 uppercase text-shadow">
-      <div className="flex text-center">find black holes</div>
-      <div className="flex justify-between sm:absolute w-full px-4 mt-2 sm:mt-0">
-        <div className="py-21 flex text-lg items-center">
-          {showCounter && <CellsCounter />}
-        </div>
-        <div className="flex text-lg items-center">{showTime && <Timer />}</div>
+    <div className="flex text-gray-300/80 uppercase text-shadow">
+      <div className="flex-2 hidden xs:flex text-3xl order-2 text-center">
+        find black holes
+      </div>
+      <div className="flex justify-start flex-1 order-1 py-21 text-lg items-center">
+        {showCounter && <CellsCounter />}
+      </div>
+      <div className="flex justify-end flex-1 order-3 text-lg items-center">
+        {showTime && <Timer />}
       </div>
     </div>
   );

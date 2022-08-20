@@ -27,10 +27,10 @@ const Timer = () => {
   }, [dispatch, time]);
 
   return (
-    <div className={`flex items-center`}>
-      {getTime(time)}
+    <>
+      <div>{getTime(time)}</div>
       <MdOutlineTimer className="ml-2" />
-    </div>
+    </>
   );
 };
 
