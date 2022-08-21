@@ -28,11 +28,11 @@ const SettingsDialog = () => {
       const preset = PRESET[presetValue];
       const { width, height } = preset.size;
       const { holesCount } = preset;
-      setDifficultyValue(presetValue);
       setWidth(width);
       setHeight(height);
       setHolesCount(holesCount);
     }
+    setDifficultyValue(presetValue);
   }, []);
 
   const handleChangeWidth = useCallback((value: number) => {
