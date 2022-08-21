@@ -2,6 +2,7 @@ import Cell from './Cell';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import type { FieldCell } from '../../store/actions/field';
+import { memo } from 'react';
 
 const GameField = () => {
   const { width, height } = useSelector((state: RootState) => state.field.size);
@@ -33,4 +34,4 @@ const GameField = () => {
   );
 };
 
-export default GameField;
+export default memo(GameField);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import { MdOutlineTimer } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
@@ -34,4 +34,4 @@ const Timer = () => {
   );
 };
 
-export default React.memo(Timer);
+export default memo(Timer);

@@ -1,7 +1,14 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { FieldSize } from './field';
 import type { AppDispatch } from '..';
 import { fieldActions } from './field';
+
+export enum DIFFUCULTY {
+  EASY,
+  MEDIUM,
+  HARD,
+  CUSTOM,
+}
 
 export interface GameState {
   showGameField: boolean;
@@ -13,6 +20,7 @@ export interface GameState {
   showSettings: boolean;
   time: number;
   isFinished: boolean;
+  difficulty: DIFFUCULTY;
 }
 
 const defaultStateValue: GameState = {
@@ -25,6 +33,7 @@ const defaultStateValue: GameState = {
   showSettings: true,
   time: 0,
   isFinished: false,
+  difficulty: DIFFUCULTY.EASY,
 };
 
 const gameSlice = createSlice({
