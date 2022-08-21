@@ -9,7 +9,7 @@ const Header = () => {
     (state: RootState) => state.game
   );
   return (
-    <div className="flex text-gray-300/80 uppercase text-shadow">
+    <div className="flex text-gray-300/80 uppercase text-shadow border-b-2 border-gray-400/50 pb-4">
       <div className="flex-2 hidden xs:flex text-3xl order-2 text-center">
         find black holes
       </div>
