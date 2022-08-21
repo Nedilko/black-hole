@@ -27,3 +27,16 @@ export const PRESET: Omit<
     holesCount: 30,
   },
 };
+
+export const getPresetName = (difficulty: DIFFUCULTY) => {
+  switch (difficulty) {
+    case DIFFUCULTY.EASY:
+      return 'Easy';
+    case DIFFUCULTY.MEDIUM:
+      return 'Medium';
+    case DIFFUCULTY.HARD:
+      return 'Hard';
+    default:
+      return 'Custom';
+  }
+};

@@ -6,9 +6,10 @@ import SettingsDialog from './components/UI/SettingsDialog';
 
 import { useSelector } from 'react-redux';
 import type { RootState } from './store';
+import Results from './components/UI/Results';
 
 function App() {
-  const { showGameField, showGameControls, showSettings } = useSelector(
+  const { showGameField, showGameControls, showSettings, isWon } = useSelector(
     (state: RootState) => state.game
   );
 
@@ -18,6 +19,7 @@ function App() {
         <header>{!showSettings && <Header />}</header>
         <main className="flex flex-col mt-24 justify-center items-center">
           {showSettings && <SettingsDialog />}
+          {isWon && <Results />}
           {showGameField && <GameField />}
         </main>
         <footer className="flex flex-col mt-auto justify-center items-center">

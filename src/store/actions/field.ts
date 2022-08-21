@@ -130,6 +130,10 @@ export const openCell =
   (dispatch: any, getState: any) => {
     const { field, game } = getState();
 
+    if (!game.isStarted && !game.isFinished) {
+      dispatch(gameActions.startCountdown());
+    }
+
     if (
       field.cells[index].isOpen ||
       field.cells[index].isMarked ||
@@ -145,7 +149,7 @@ export const openCell =
 
     if (field.remainingCellsCount === 1) {
       dispatch(fieldActions.openCell(index));
-      dispatch(gameActions.finishGame());
+      dispatch(gameActions.winGame());
       return;
     }
 

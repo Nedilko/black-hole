@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { DIFFUCULTY } from '../../store/actions/game';
+import { getPresetName } from '../../store/presets';
 
 type PropsType = {
   value: DIFFUCULTY;
@@ -25,10 +26,18 @@ const PresetsDropdown = ({ value, handleChange }: PropsType) => {
         onChange={changeValueHandler}
         value={value}
       >
-        <option value={DIFFUCULTY.EASY}>Easy</option>
-        <option value={DIFFUCULTY.MEDIUM}>Medium</option>
-        <option value={DIFFUCULTY.HARD}>Hard</option>
-        <option value={DIFFUCULTY.CUSTOM}>Custom</option>
+        <option value={DIFFUCULTY.EASY}>
+          {getPresetName(DIFFUCULTY.EASY)}
+        </option>
+        <option value={DIFFUCULTY.MEDIUM}>
+          {getPresetName(DIFFUCULTY.MEDIUM)}
+        </option>
+        <option value={DIFFUCULTY.HARD}>
+          {getPresetName(DIFFUCULTY.HARD)}
+        </option>
+        <option value={DIFFUCULTY.CUSTOM}>
+          {getPresetName(DIFFUCULTY.CUSTOM)}
+        </option>
       </select>
     </label>
   );

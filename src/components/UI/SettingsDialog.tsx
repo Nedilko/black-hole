@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { DIFFUCULTY, startGame } from '../../store/actions/game';
+import { DIFFUCULTY, gameActions, startGame } from '../../store/actions/game';
 import { PRESET } from '../../store/presets';
 import NumberInput from './NumberInput';
 import PresetsDropdown from './PresetsDropdown';
@@ -15,6 +15,7 @@ const SettingsDialog = () => {
 
   const handleStartGame = () => {
     dispatch(startGame({ width, height }, holesCount));
+    dispatch(gameActions.registerDifficulty(difficultyValue));
   };
 
   const [width, setWidth] = useState<number>(currentSize.width);
