@@ -3,15 +3,13 @@ import Footer from './components/UI/Footer';
 import GameControls from './components/UI/GameControls';
 import Header from './components/UI/Header';
 import SettingsDialog from './components/UI/SettingsDialog';
-
-import { useSelector } from 'react-redux';
-import type { RootState } from './store';
 import Results from './components/UI/Results';
+import { useAppSelector } from './hooks';
+import { selectGame } from './store/selectors';
 
 function App() {
-  const { showGameField, showGameControls, showSettings, isWon } = useSelector(
-    (state: RootState) => state.game
-  );
+  const { showGameField, showGameControls, showSettings, isWon } =
+    useAppSelector(selectGame);
 
   return (
     <div className="font-extralight bg-gradient-to-b from-[#06070d] via-[#061234] to-[#0e103e]">

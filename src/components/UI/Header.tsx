@@ -1,13 +1,11 @@
 import { memo } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { useAppSelector } from '../../hooks';
+import { selectGame } from '../../store/selectors';
 import CellsCounter from './CellsCounter';
 import Timer from './Timer';
 
 const Header = () => {
-  const { showTime, showCounter } = useSelector(
-    (state: RootState) => state.game
-  );
+  const { showTime, showCounter } = useAppSelector(selectGame);
   return (
     <div className="flex text-gray-300/80 uppercase text-shadow border-b-2 border-gray-400/50 pb-4">
       <div className="flex-2 hidden xxs:flex xs:text-3xl text-xl order-2 text-center">

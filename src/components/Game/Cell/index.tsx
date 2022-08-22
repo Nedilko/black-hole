@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from 'react';
-import type { FieldCell } from '../../../store/actions/field';
+import type { FieldCell } from '../../../store/fieldSlice';
 import withInterctivity from './withIntercativity';
 import withStyles from './withStyles';
 

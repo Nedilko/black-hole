@@ -1,4 +1,4 @@
-import { CellPosition, FieldSize } from '../store/actions/field';
+import type { CellPosition, FieldSize } from '../store/fieldSlice';
 
 export const getHolesIndexes = (
   { width, height }: FieldSize,

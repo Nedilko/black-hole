@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { FieldSize } from './field';
-import type { AppDispatch } from '..';
-import { fieldActions } from './field';
-import { loadResults } from '../../utils';
+import type { FieldSize } from './fieldSlice';
+import type { AppDispatch } from '.';
+import { renewField, setupField } from './fieldSlice';
+import { loadResults } from '../utils';
 
 export enum DIFFUCULTY {
   EASY,
@@ -104,18 +104,24 @@ const gameSlice = createSlice({
   },
 });
 
-export const restartGame = (): any => (dispatch: AppDispatch) => {
-  dispatch(fieldActions.renewField());
+export default gameSlice.reducer;
+
+export const {
+  finishGame,
+  showMainMenu,
+  updateTime,
+  winGame,
+  registerDifficulty,
+  startCountdown,
+} = gameSlice.actions;
+
+export const restartGame = () => (dispatch: AppDispatch) => {
+  dispatch(renewField());
   dispatch(gameSlice.actions.showGameField());
 };
 
 export const startGame =
-  (size: FieldSize, holesCount: number): any =>
-  (dispatch: AppDispatch): any => {
-    dispatch(fieldActions.setupField({ size, holesCount }));
+  (size: FieldSize, holesCount: number) => (dispatch: AppDispatch) => {
+    dispatch(setupField({ size, holesCount }));
     dispatch(gameSlice.actions.showGameField());
   };
-
-export default gameSlice.reducer;
-
-export const gameActions = gameSlice.actions;

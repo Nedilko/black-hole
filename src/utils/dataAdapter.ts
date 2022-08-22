@@ -1,4 +1,4 @@
-import { Results } from '../store/actions/game';
+import type { Results } from '../store/gameSlice';
 import { getDefaultResults } from './game';
 import {
   writeToLocalstorage,

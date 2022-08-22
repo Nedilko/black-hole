@@ -1,13 +1,12 @@
 import Cell from './Cell';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import type { FieldCell } from '../../store/actions/field';
+import type { FieldCell } from '../../store/fieldSlice';
 import { memo } from 'react';
+import { useAppSelector } from '../../hooks';
+import { selectFieldCells, selectFieldSize } from '../../store/selectors';
 
 const GameField = () => {
-  const { width, height } = useSelector((state: RootState) => state.field.size);
-
-  const cells = useSelector((state: RootState) => state.field.cells);
+  const { width, height } = useAppSelector(selectFieldSize);
+  const cells = useAppSelector(selectFieldCells);
 
   return (
     <div className="flex flex-col">

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { DIFFUCULTY } from '../../store/actions/game';
+import { DIFFUCULTY } from '../../store/gameSlice';
 import { getPresetName } from '../../store/presets';
 
 type PropsType = {

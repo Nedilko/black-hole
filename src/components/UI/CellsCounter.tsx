@@ -1,11 +1,9 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { useAppSelector } from '../../hooks';
+import { selectField } from '../../store/selectors';
 
 const CellsCounter = () => {
-  const { remainingCellsCount, totalCellsCount } = useSelector(
-    (state: RootState) => state.field
-  );
+  const { remainingCellsCount, totalCellsCount } = useAppSelector(selectField);
 
   return (
     <>

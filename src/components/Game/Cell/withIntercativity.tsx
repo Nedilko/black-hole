@@ -1,6 +1,6 @@
 import { FC, useCallback } from 'react';
-import { useAppDispatch } from '../../../store';
-import { fieldActions, openCell } from '../../../store/actions/field';
+import { useAppDispatch } from '../../../hooks';
+import { toggleMarkCell, openCell } from '../../../store/fieldSlice';
 import type { WithInteractivityProps } from './index';
 
 const withInterctivity = <
@@ -22,7 +22,7 @@ const withInterctivity = <
 
     const handleMarkCell = useCallback(
       (cellIndex: number) => {
-        dispatch(fieldActions.toggleMarkCell(cellIndex));
+        dispatch(toggleMarkCell(cellIndex));
       },
       [dispatch]
     );

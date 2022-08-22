@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { getCellSurroundingIndexes, getHolesIndexes } from '../../game/logic';
-import { gameActions } from './game';
+import { getCellSurroundingIndexes, getHolesIndexes } from '../game/logic';
+import { startCountdown, finishGame, winGame } from './gameSlice';
+import { AppDispatch, RootState } from '.';
 
 export interface CellPosition {
   x: number;
@@ -125,13 +126,16 @@ const fieldSlice = createSlice({
   },
 });
 
+export default fieldSlice.reducer;
+
+export const { setupField, renewField, toggleMarkCell } = fieldSlice.actions;
+
 export const openCell =
-  (index: number): any =>
-  (dispatch: any, getState: any) => {
+  (index: number) => (dispatch: AppDispatch, getState: () => RootState) => {
     const { field, game } = getState();
 
     if (!game.isStarted && !game.isFinished) {
-      dispatch(gameActions.startCountdown());
+      dispatch(startCountdown());
     }
 
     if (
@@ -142,18 +146,18 @@ export const openCell =
       return;
 
     if (field.cells[index].isHole) {
-      dispatch(fieldActions.openAllHoles());
-      dispatch(gameActions.finishGame());
+      dispatch(fieldSlice.actions.openAllHoles());
+      dispatch(finishGame());
       return;
     }
 
     if (field.remainingCellsCount === 1) {
-      dispatch(fieldActions.openCell(index));
-      dispatch(gameActions.winGame());
+      dispatch(fieldSlice.actions.openCell(index));
+      dispatch(winGame());
       return;
     }
 
-    dispatch(fieldActions.openCell(index));
+    dispatch(fieldSlice.actions.openCell(index));
 
     if (field.cells[index].holesNearCount === 0) {
       getCellSurroundingIndexes(
@@ -166,7 +170,3 @@ export const openCell =
       });
     }
   };
-
-export default fieldSlice.reducer;
-
-export const fieldActions = fieldSlice.actions;

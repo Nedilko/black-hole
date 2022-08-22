@@ -1,4 +1,4 @@
-import { DIFFUCULTY, Results } from '../store/actions/game';
+import { DIFFUCULTY, Results } from '../store/gameSlice';
 
 export const getDefaultResults = (): Results => {
   return {

@@ -1,13 +1,11 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 import { getPresetName } from '../../store/presets';
 import { MdOutlineTimer } from 'react-icons/md';
 import { getTime } from '../../utils';
+import { useAppSelector } from '../../hooks';
+import { selectGame } from '../../store/selectors';
 
 const Results = () => {
-  const { difficulty, time, results } = useSelector(
-    (state: RootState) => state.game
-  );
+  const { difficulty, time, results } = useAppSelector(selectGame);
   const hightScore = results[difficulty];
   const greetingText = time <= hightScore ? 'New high score!' : 'You win!';
   return (
