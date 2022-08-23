@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CellsCounter should render CellsCounter 1`] = `
+<div>
+  <span
+    class="flex w-5 h-5 border-2 border-gray-400/80 mr-2 rounded-full"
+  />
+  54 / 54
+</div>
+`;
