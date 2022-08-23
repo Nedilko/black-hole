@@ -82,7 +82,7 @@ const defaultStateValue: FieldState = {
 };
 
 const fieldSlice = createSlice({
-  name: 'settings',
+  name: 'field',
   initialState: defaultStateValue,
   reducers: {
     setupField: (
