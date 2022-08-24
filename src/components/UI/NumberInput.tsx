@@ -38,10 +38,12 @@ const NumberInput = ({ label, min, max, value, handleChange }: PropsType) => {
   return (
     <label className="flex text-gray-300 uppercase relative w-full">
       <MdKeyboardArrowUp
+        data-testid="increment"
         onClick={handleIncrement}
         className="absolute top-0 right-0 cursor-pointer text-3xl hover:scale-110 transition-all duration-150"
       />
       <MdKeyboardArrowDown
+        data-testid="decrement"
         onClick={handleDecrement}
         className="absolute bottom-0 right-0 cursor-pointer text-3xl hover:scale-110 transition-all duration-150"
       />
