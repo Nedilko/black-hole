@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cell should render Cell 1`] = `
+<div>
+  <button
+    class="text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 rounded-md border-2 border-gray-400 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10\\""
+  />
+</div>
+`;
