@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GameControls should render GameControls 1`] = `
+<div>
+  <div
+    class="flex flex-row gap-x-8 upppercase"
+  >
+    <button
+      class="flex text-3xl items-center text-gray-300/80 uppercase hover:text-shadow hover:text-gray-300 transition-all duration-150"
+    >
+      <svg
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 24 24"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+        <path
+          d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"
+        />
+      </svg>
+      try again
+    </button>
+    <button
+      class="flex text-3xl items-center text-gray-300/80 uppercase hover:text-shadow hover:text-gray-300 transition-all duration-150"
+    >
+      main menu
+      <svg
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 24 24"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 0h24v24H0V0z"
+          fill="none"
+        />
+        <path
+          d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+`;
