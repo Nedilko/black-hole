@@ -1,5 +1,5 @@
 import { FieldSettings } from './fieldSlice';
-import { DIFFUCULTY } from './gameSlice';
+import { DIFFUCULTY } from '../utils/game';
 
 export const PRESET: Omit<
   Record<DIFFUCULTY, FieldSettings>,

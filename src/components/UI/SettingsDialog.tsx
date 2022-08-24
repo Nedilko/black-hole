@@ -1,11 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {
-  DIFFUCULTY,
-  registerDifficulty,
-  startGame,
-} from '../../store/gameSlice';
+import { registerDifficulty, startGame } from '../../store/gameSlice';
 import { PRESET } from '../../store/presets';
+import { DIFFUCULTY } from '../../utils/game';
 import { selectField, selectGame } from '../../store/selectors';
 import NumberInput from './NumberInput';
 import PresetsDropdown from './PresetsDropdown';

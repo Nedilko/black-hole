@@ -1,4 +1,10 @@
-import { DIFFUCULTY, Results } from '../store/gameSlice';
+import type { Results } from '../store/gameSlice';
+export enum DIFFUCULTY {
+  EASY,
+  MEDIUM,
+  HARD,
+  CUSTOM,
+}
 
 export const getDefaultResults = (): Results => {
   return {

@@ -2,14 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { FieldSize } from './fieldSlice';
 import type { AppDispatch } from '.';
 import { renewField, setupField } from './fieldSlice';
-import { loadResults } from '../utils';
-
-export enum DIFFUCULTY {
-  EASY,
-  MEDIUM,
-  HARD,
-  CUSTOM,
-}
+import { loadResults } from '../utils/dataAdapter';
+import { DIFFUCULTY } from '../utils/game';
 
 export interface Results {
   [DIFFUCULTY.EASY]: number;

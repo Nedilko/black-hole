@@ -2,11 +2,11 @@ import { renderWithProviders } from '../../../utils/test-utils';
 import { screen } from '@testing-library/react';
 import Results from '../Results';
 import {
-  DIFFUCULTY,
   registerDifficulty,
   updateTime,
   winGame,
 } from '../../../store/gameSlice';
+import { DIFFUCULTY } from '../../../utils/game';
 import { setupStore } from '../../../store';
 
 describe('Results', () => {
