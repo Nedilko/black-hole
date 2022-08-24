@@ -113,15 +113,16 @@ export const {
   winGame,
   registerDifficulty,
   startCountdown,
+  showGameField,
 } = gameSlice.actions;
 
 export const restartGame = () => (dispatch: AppDispatch) => {
   dispatch(renewField());
-  dispatch(gameSlice.actions.showGameField());
+  dispatch(showGameField());
 };
 
 export const startGame =
   (size: FieldSize, holesCount: number) => (dispatch: AppDispatch) => {
     dispatch(setupField({ size, holesCount }));
-    dispatch(gameSlice.actions.showGameField());
+    dispatch(showGameField());
   };
