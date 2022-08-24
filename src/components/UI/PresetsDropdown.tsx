@@ -20,8 +20,8 @@ const PresetsDropdown = ({ value, handleChange }: PropsType) => {
         difficulty
       </div>
       <select
-        name="presets"
-        id="presets"
+        name="presets-dropdown"
+        data-testid="presets-dropdown"
         className="appearance-none outline outline-1 hover:outline-2 outline-slate-700 focus:outline-gray-400 outline-offset-2 w-full text-xl font-normal bg-slate-900 px-2 pt-6 pb-1 rounded transition-all duration-150 hover:cursor-pointer"
         onChange={changeValueHandler}
         value={value}
