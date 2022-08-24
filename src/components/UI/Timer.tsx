@@ -3,7 +3,7 @@ import { MdOutlineTimer } from 'react-icons/md';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateTime } from '../../store/gameSlice';
 import { selectGame } from '../../store/selectors';
-import { getTime } from '../../utils';
+import { getTime } from '../../utils/time';
 
 const Timer = () => {
   const dispatch = useAppDispatch();

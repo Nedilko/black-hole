@@ -1,6 +1,6 @@
 import { getPresetName } from '../../store/presets';
 import { MdOutlineTimer } from 'react-icons/md';
-import { getTime } from '../../utils';
+import { getTime } from '../../utils/time';
 import { useAppSelector } from '../../hooks';
 import { selectGame } from '../../store/selectors';
 
