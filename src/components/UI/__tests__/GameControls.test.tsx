@@ -57,18 +57,4 @@ describe('GameControls', () => {
 
     expect(showMainMenuAction).toHaveBeenCalledTimes(1);
   });
-
-  it.skip('should dispatch restart game inner dispatches', () => {
-    jest.spyOn(hooks, 'useAppDispatch').mockReturnValue(jest.fn());
-    const disp = jest.fn();
-    const thunk = restartGame();
-    thunk(disp);
-    renderWithProviders(<GameControls />);
-
-    userEvent.click(screen.getByText(/try again/));
-
-    expect(disp).toHaveBeenCalledTimes(2);
-    expect(disp).toHaveBeenCalledWith(renewField());
-    expect(disp).toHaveBeenCalledWith(showGameField());
-  });
 });
