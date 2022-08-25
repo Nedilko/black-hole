@@ -1,12 +1,9 @@
 import gameReducer, {
-  finishGame,
   restartGame,
   showGameField,
   startGame,
 } from '../gameSlice';
-import * as hooks from '../../hooks';
 import { renewField, setupField } from '../fieldSlice';
-import { setupStore } from '..';
 
 describe('game reducer', () => {
   beforeEach(() => {
