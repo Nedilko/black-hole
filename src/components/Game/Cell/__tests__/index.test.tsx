@@ -23,6 +23,45 @@ describe('Cell', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('should render hole Cell', () => {
+    const { container } = renderWithProviders(
+      <Cell
+        index={0}
+        isHole={true}
+        isOpen={false}
+        isMarked={false}
+        holesNearCount={3}
+      />
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render open Cell', () => {
+    const { container } = renderWithProviders(
+      <Cell
+        index={0}
+        isHole={false}
+        isOpen={true}
+        isMarked={false}
+        holesNearCount={3}
+      />
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render marked Cell', () => {
+    const { container } = renderWithProviders(
+      <Cell
+        index={0}
+        isHole={false}
+        isOpen={false}
+        isMarked={true}
+        holesNearCount={3}
+      />
+    );
+    expect(container).toMatchSnapshot();
+  });
+
   it('should render not empty Cell', () => {
     const { container } = renderWithProviders(
       <Cell
