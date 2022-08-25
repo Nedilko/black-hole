@@ -23,6 +23,19 @@ describe('Cell', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('should render not empty Cell', () => {
+    const { container } = renderWithProviders(
+      <Cell
+        index={0}
+        isHole={false}
+        isOpen={true}
+        isMarked={false}
+        holesNearCount={0}
+      />
+    );
+    expect(container).toMatchSnapshot();
+  });
+
   it('should handle cell left click', () => {
     jest.spyOn(hooks, 'useAppDispatch').mockReturnValue(jest.fn());
     const openCellAction = jest.spyOn(actions, 'openCell');
