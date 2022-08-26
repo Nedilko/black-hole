@@ -59,6 +59,54 @@ describe('game reducer', () => {
     });
   });
 
+  it('should handle winGame', () => {
+    const actual = gameReducer(
+      {
+        difficulty: 0,
+        isFinished: false,
+        isStarted: true,
+        isWon: false,
+        results: {
+          '0': 11,
+          '1': 0,
+          '2': 0,
+          '3': 0,
+        },
+        showCounter: true,
+        showGameControls: false,
+        showGameField: true,
+        showSettings: false,
+        showTime: true,
+        time: 10,
+        remainingCellsCount: 0,
+        totalCellsCount: 0,
+      },
+      {
+        type: 'game/winGame',
+      }
+    );
+    expect(actual).toEqual({
+      difficulty: 0,
+      isFinished: true,
+      isStarted: false,
+      isWon: true,
+      results: {
+        '0': 10,
+        '1': 0,
+        '2': 0,
+        '3': 0,
+      },
+      showCounter: true,
+      showGameControls: true,
+      showGameField: false,
+      remainingCellsCount: 0,
+      totalCellsCount: 0,
+      showSettings: false,
+      showTime: true,
+      time: 10,
+    });
+  });
+
   it('should handle showMainMenu', () => {
     const actual = gameReducer(undefined, {
       type: 'game/showMainMenu',
