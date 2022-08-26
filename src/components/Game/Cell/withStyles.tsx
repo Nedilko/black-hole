@@ -12,9 +12,6 @@ const CELL_STYLES = {
 const withStyles = <T extends CellPropsType = CellPropsType>(
   WrappedCell: FC<T>
 ) => {
-  const displayName =
-    WrappedCell.displayName || WrappedCell.name || 'Component';
-
   const StyledCell = (props: Omit<T, keyof WithStylesProps>) => {
     const { holesNearCount, isHole, isOpen, isMarked } = props;
 
@@ -31,7 +28,7 @@ const withStyles = <T extends CellPropsType = CellPropsType>(
     return <WrappedCell {...(props as T)} cellStyle={cellStyle} />;
   };
 
-  StyledCell.displayName = `StyledCell(${displayName})`;
+  StyledCell.displayName = `StyledCell`;
   return StyledCell;
 };
 

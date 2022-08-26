@@ -8,9 +8,6 @@ const withInterctivity = <
 >(
   WrappedComponent: FC<T>
 ) => {
-  const displayName =
-    WrappedComponent.displayName || WrappedComponent.name || 'Component';
-
   const WithInteractivity = (props: Omit<T, keyof WithInteractivityProps>) => {
     const dispatch = useAppDispatch();
     const handleOpenCell = useCallback(
@@ -36,7 +33,7 @@ const withInterctivity = <
     );
   };
 
-  WithInteractivity.displayName = `WithInteractivity(${displayName})`;
+  WithInteractivity.displayName = `WithInteractivity`;
 
   return WithInteractivity;
 };
