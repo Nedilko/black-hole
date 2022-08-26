@@ -1,8 +1,6 @@
 import { FC } from 'react';
 import type { CellPropsType, WithStylesProps } from './index';
 
-export type CellType = 'regular' | 'empty' | 'hole';
-
 const CELL_STYLES = {
   HOLE: 'rounded-full border-2 border-red-800 bg-black cursor-default',
   EMPTY: 'border-2 rounded-md border-gray-700 bg-gray-700/10 cursor-default',
@@ -23,7 +21,7 @@ const withStyles = <T extends CellPropsType = CellPropsType>(
 
     const markedStyle = isMarked ? 'border-cyan-600/90' : 'border-gray-400';
     if (!isOpen) {
-      cellStyle = `rounded-md border-2 ${markedStyle} bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10"`;
+      cellStyle = `rounded-md border-2 ${markedStyle} bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10`;
     }
     return <WrappedCell {...(props as T)} cellStyle={cellStyle} />;
   };
