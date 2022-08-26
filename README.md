@@ -1,4 +1,4 @@
-# Find Black Holes Application
+# Find Black Holes Application (with reorganized structure)
 
 This project due to Take Home Interview. \
 To start application in development mode please run `npm start`. \
