@@ -3,7 +3,7 @@
 exports[`Cell should render Cell 1`] = `
 <div>
   <button
-    class="text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 rounded-md border-2 border-gray-400 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10"
+    class="h-10 w-10 text-2xl font-medium text-gray-300 opacity-90 rounded-md border-2 border-gray-400 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10"
   />
 </div>
 `;
@@ -11,7 +11,7 @@ exports[`Cell should render Cell 1`] = `
 exports[`Cell should render hole Cell 1`] = `
 <div>
   <button
-    class="text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 rounded-md border-2 border-gray-400 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10"
+    class="h-10 w-10 text-2xl font-medium text-gray-300 opacity-90 rounded-md border-2 border-gray-400 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10"
   />
 </div>
 `;
@@ -19,7 +19,7 @@ exports[`Cell should render hole Cell 1`] = `
 exports[`Cell should render marked Cell 1`] = `
 <div>
   <button
-    class="text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 rounded-md border-2 border-cyan-600/90 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10"
+    class="h-10 w-10 text-2xl font-medium text-gray-300 opacity-90 rounded-md border-2 border-cyan-600/90 bg-gradient-radial hover:bg-blue-900/30 hover:from-blue-900/30 from-black/70 via-black/10 to-black/10"
   />
 </div>
 `;
@@ -27,7 +27,7 @@ exports[`Cell should render marked Cell 1`] = `
 exports[`Cell should render not empty Cell 1`] = `
 <div>
   <button
-    class="text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 border-2 rounded-md border-gray-700 bg-gray-700/10 cursor-default"
+    class="h-10 w-10 text-2xl font-medium text-gray-300 opacity-90 border-2 rounded-md border-gray-700 bg-gray-700/10 cursor-default"
   />
 </div>
 `;
@@ -35,7 +35,7 @@ exports[`Cell should render not empty Cell 1`] = `
 exports[`Cell should render open Cell 1`] = `
 <div>
   <button
-    class="text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 rounded-full border-2 border-gray-300 cursor-default"
+    class="h-10 w-10 text-2xl font-medium text-gray-300 opacity-90 rounded-full border-2 border-gray-300 cursor-default"
   >
     3
   </button>
