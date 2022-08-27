@@ -42,7 +42,7 @@ const Cell = ({
     <button
       onClick={handleLeftClick}
       onContextMenu={handleRightClick}
-      className={`text-gray-300 text-2xl font-medium w-10 h-10 opacity-90 transition ease-in-out duration-150 ${cellStyle}`}
+      className={`h-10 w-10 text-2xl font-medium text-gray-300 opacity-90 ${cellStyle}`}
     >
       {canShowValue && displayValue}
     </button>
