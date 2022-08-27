@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Results should render Results 1`] = `
+<div>
+  <div
+    class="flex flex-col text-3xl items-center text-gray-300/80 uppercase max-w-[400px] w-full"
+  >
+    <div
+      class="flex"
+    >
+      New high score!
+    </div>
+    <div
+      class="flex text-xl text-gray-300/60"
+    >
+      (Easy mode)
+    </div>
+    <div
+      class="flex flex-row border-t-2 border-b-2 border-gray-400/50 py-6 mt-20 items-center w-full"
+    >
+      <div
+        class="flex flex-2 order-2 text-5xl"
+      >
+        <svg
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 24 24"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 0h24v24H0V0z"
+            fill="none"
+          />
+          <path
+            d="M15.07 1.01h-6v2h6v-2zm-4 13h2v-6h-2v6zm8.03-6.62l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012.07 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.11-.74-4.06-1.97-5.61zm-7.03 12.62c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"
+          />
+        </svg>
+      </div>
+      <div
+        class="flex flex-1 order-1 justify-start"
+      >
+        <div
+          class="flex flex-col items-center ml-10"
+        >
+          <div
+            class="flex text-xl text-gray-300/60"
+          >
+            Score
+          </div>
+          <div
+            class="flex"
+          >
+            00:00
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex flex-1 order-3 justify-end"
+      >
+        <div
+          class="flex flex-col items-center mr-10"
+        >
+          <div
+            class="flex text-xl text-gray-300/60"
+          >
+            Best
+          </div>
+          <div
+            class="flex"
+          >
+            00:00
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

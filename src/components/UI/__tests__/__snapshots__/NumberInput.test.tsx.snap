@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NumberInput should render NumberInput 1`] = `
+<div>
+  <label
+    class="flex text-gray-300 uppercase relative w-full"
+  >
+    <svg
+      class="absolute top-0 right-0 cursor-pointer text-3xl hover:scale-110 transition-all duration-150"
+      data-testid="increment"
+      fill="currentColor"
+      height="1em"
+      stroke="currentColor"
+      stroke-width="0"
+      viewBox="0 0 24 24"
+      width="1em"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+      <path
+        d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"
+      />
+    </svg>
+    <svg
+      class="absolute bottom-0 right-0 cursor-pointer text-3xl hover:scale-110 transition-all duration-150"
+      data-testid="decrement"
+      fill="currentColor"
+      height="1em"
+      stroke="currentColor"
+      stroke-width="0"
+      viewBox="0 0 24 24"
+      width="1em"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0 0h24v24H0V0z"
+        fill="none"
+      />
+      <path
+        d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+      />
+    </svg>
+    <div
+      class="text-sm absolute top-1 left-2 text-gray-400 select-none"
+    />
+    <input
+      class="appearance-none outline outline-1 hover:outline-2 outline-slate-700 focus:outline-gray-400 outline-offset-2 w-full text-xl font-semibold bg-slate-900 px-2 pt-6 pb-1 rounded transition-all duration-150"
+      max="0"
+      min="0"
+      type="number"
+      value="0"
+    />
+  </label>
+</div>
+`;

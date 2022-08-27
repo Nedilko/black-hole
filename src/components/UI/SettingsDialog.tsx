@@ -1,56 +1,87 @@
-import { useState } from 'react';
-import { useGameStore } from '../../hooks/useGameStore';
-import { useSettingsStore } from '../../hooks/useSettingsStore';
-import { GameActions } from '../../store/GameStore';
-import { SettingsActions } from '../../store/SettingsStore';
+import { useCallback, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { registerDifficulty, startGame } from '../../store/gameSlice';
+import { PRESET } from '../../store/presets';
+import { DIFFUCULTY } from '../../utils/game';
+import { selectField, selectGame } from '../../store/selectors';
 import NumberInput from './NumberInput';
+import PresetsDropdown from './PresetsDropdown';
 
 const SettingsDialog = () => {
-  const handleApply = () => {
-    settingsDispatch(
-      SettingsActions.setSettings({
-        size: {
-          width,
-          height,
-        },
-        holesCount: holes,
-      })
-    );
+  const dispatch = useAppDispatch();
+  const { difficulty } = useAppSelector(selectGame);
+  const { size: currentSize, holesCount: currentHolesCount } =
+    useAppSelector(selectField);
 
-    gameDispatch(GameActions.showGameField());
-    gameDispatch(GameActions.showGameField());
+  const handleStartGame = () => {
+    dispatch(startGame({ width, height }, holesCount));
+    dispatch(registerDifficulty(difficultyValue));
   };
 
-  const [{ size, holesCount }, settingsDispatch] = useSettingsStore();
-  const [_, gameDispatch] = useGameStore();
+  const [width, setWidth] = useState<number>(currentSize.width);
+  const [height, setHeight] = useState<number>(currentSize.height);
+  const [holesCount, setHolesCount] = useState<number>(currentHolesCount);
+  const [difficultyValue, setDifficultyValue] =
+    useState<DIFFUCULTY>(difficulty);
 
-  const [width, setWidth] = useState<number>(size.width);
-  const [height, setHeight] = useState<number>(size.height);
-  const [holes, setHolesCount] = useState<number>(holesCount);
+  const handlePresetChange = useCallback((presetValue: DIFFUCULTY) => {
+    if (presetValue !== DIFFUCULTY.CUSTOM) {
+      const preset = PRESET[presetValue];
+      const { width, height } = preset.size;
+      const { holesCount } = preset;
+      setWidth(width);
+      setHeight(height);
+      setHolesCount(holesCount);
+    }
+    setDifficultyValue(presetValue);
+  }, []);
 
-  const handleChangeWidth = (value: number) => {
+  const handleChangeWidth = useCallback((value: number) => {
     if (value > 4 && value <= 20) {
       setWidth(value);
     }
-  };
+  }, []);
 
-  const handleChangeHeight = (value: number) => {
+  const handleChangeHeight = useCallback((value: number) => {
     if (value > 4 && value <= 20) {
       setHeight(value);
     }
-  };
+  }, []);
 
-  const handleChangeHolesCount = (value: number) => {
-    if (value < width * height - 1 && value > 0) {
-      setHolesCount(value);
+  const handleChangeHolesCount = useCallback(
+    (value: number) => {
+      if (value < width * height - 1 && value > 0) {
+        setHolesCount(value);
+      }
+    },
+    [height, width]
+  );
+
+  useEffect(() => {
+    const preset = Object.entries(PRESET).find(([key, preset]) => {
+      return (
+        preset.size.width === width &&
+        preset.size.height === height &&
+        preset.holesCount === holesCount
+      );
+    });
+    if (preset) {
+      setDifficultyValue(+preset[0] as DIFFUCULTY);
+    } else {
+      setDifficultyValue(DIFFUCULTY.CUSTOM);
     }
-  };
+  }, [width, height, holesCount, handlePresetChange]);
 
   return (
-    <div className="flex flex-col p-4">
+    <div className="flex flex-col p-4 w-full max-w-[400px]">
       <div className="flex flex-col justify-center items-center">
-        <h2 className="text-4xl text-gray-300/80 uppercase mb-4">Settings</h2>
-        <div className="flex flex-row mt-4 gap-x-6">
+        <div className="flex flex-row mt-4 gap-x-6 w-full">
+          <PresetsDropdown
+            value={difficultyValue}
+            handleChange={handlePresetChange}
+          />
+        </div>
+        <div className="flex flex-row mt-4 gap-x-6 w-full">
           <NumberInput
             label="Width:"
             value={width}
@@ -58,6 +89,7 @@ const SettingsDialog = () => {
             max={20}
             handleChange={handleChangeWidth}
           />
+
           <NumberInput
             label="Height:"
             min={2}
@@ -66,12 +98,12 @@ const SettingsDialog = () => {
             handleChange={handleChangeHeight}
           />
         </div>
-        <div className="flex mt-4">
+        <div className="flex mt-4 w-full">
           <NumberInput
             label="Holes count:"
             min={1}
             max={width * height - 2}
-            value={holes}
+            value={holesCount}
             handleChange={handleChangeHolesCount}
           />
         </div>
@@ -79,7 +111,7 @@ const SettingsDialog = () => {
       <div className="flex justify-center mt-12">
         <button
           className="pb-1 text-5xl text-gray-300/80 uppercase hover:text-shadow hover:text-gray-300 transition-all duration-150"
-          onClick={handleApply}
+          onClick={handleStartGame}
         >
           Start
         </button>

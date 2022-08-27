@@ -1,21 +1,24 @@
-import React from 'react';
+import { memo } from 'react';
+import { useAppSelector } from '../../hooks';
+import { selectGame } from '../../store/selectors';
 import CellsCounter from './CellsCounter';
 import Timer from './Timer';
 
 const Header = () => {
+  const { showTime, showCounter } = useAppSelector(selectGame);
   return (
-    <div className="flex justify-center w-full items-center text-5xl text-gray-300/80 uppercase text-shadow">
-      <div className="flex">find black holes</div>
-      <div className="flex justify-between absolute w-full px-4">
-        <div className="py-21 flex text-lg items-center">
-          <CellsCounter />
-        </div>
-        <div className="flex text-lg items-center">
-          <Timer />
-        </div>
+    <div className="flex text-gray-300/80 uppercase text-shadow border-b-2 border-gray-400/50 pb-4">
+      <div className="flex-2 hidden xxs:flex xs:text-3xl text-xl order-2 text-center">
+        find black holes
+      </div>
+      <div className="flex justify-start flex-1 order-1 py-21 text-lg items-center">
+        {showCounter && <CellsCounter />}
+      </div>
+      <div className="flex justify-end flex-1 order-3 text-lg items-center">
+        {showTime && <Timer />}
       </div>
     </div>
   );
 };
 
-export default React.memo(Header);
+export default memo(Header);

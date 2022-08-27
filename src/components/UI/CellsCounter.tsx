@@ -1,14 +1,14 @@
 import React from 'react';
-import { useGameStore } from '../../hooks/useGameStore';
+import { useAppSelector } from '../../hooks';
+import { selectField } from '../../store/selectors';
 
 const CellsCounter = () => {
-  const [{ remainingCellsCount, totalCellsCount }] = useGameStore();
+  const { remainingCellsCount, totalCellsCount } = useAppSelector(selectField);
 
   return (
     <>
       <span className="flex w-5 h-5 border-2 border-gray-400/80 mr-2 rounded-full" />
       {`${remainingCellsCount} / ${totalCellsCount}`}
-      <span className="flex w-5 h-5 border-2 border-gray-400/80 ml-2" />
     </>
   );
 };

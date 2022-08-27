@@ -1,13 +1,12 @@
-import type { IBoardSize } from './board';
-import type { ICellPosition } from './cell';
+import type { CellPosition, FieldSize } from '../store/fieldSlice';
 
-export const getHolesIndexes = (
-  { width, height }: IBoardSize,
+export const getHolesIndexes = <T extends number>(
+  { width, height }: FieldSize,
   holesCount: number
-): number[] => {
-  const indexesArray: number[] = [];
+): T[] => {
+  const indexesArray: T[] = [];
   while (indexesArray.length < holesCount) {
-    const randomIndex = Math.floor(Math.random() * (width * height));
+    const randomIndex = Math.floor(Math.random() * (width * height)) as T;
     if (!indexesArray.includes(randomIndex)) {
       indexesArray.push(randomIndex);
     }
@@ -15,11 +14,11 @@ export const getHolesIndexes = (
   return indexesArray;
 };
 
-export const getCellSurroundingIndexes = (
-  { x, y }: ICellPosition,
-  { width, height }: IBoardSize
-) => {
-  const indexesArray: number[] = [];
+export const getCellSurroundingIndexes = <T extends number>(
+  { x, y }: CellPosition,
+  { width, height }: FieldSize
+): T[] => {
+  const indexesArray: T[] = [];
 
   const xMin = x - 1;
   const xMax = x + 1;
@@ -35,7 +34,7 @@ export const getCellSurroundingIndexes = (
         j < height &&
         !(i === x && j === y)
       ) {
-        indexesArray.push(i + j * width);
+        indexesArray.push((i + j * width) as T);
       }
     }
   }

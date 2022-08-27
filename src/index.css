@@ -7,3 +7,11 @@
     text-shadow: 1px 0 15px rgba(255,255,255,0.60);
   }
 }
+
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
